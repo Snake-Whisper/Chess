@@ -28,7 +28,6 @@ public class Chess {
 		groundStructure();
 		// System.out.println(test());
 		System.out.println(move(3, 0, 2, 1));
-		// System.out.println();
 
 	}
 
