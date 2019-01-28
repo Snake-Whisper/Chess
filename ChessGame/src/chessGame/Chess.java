@@ -3,31 +3,41 @@ package chessGame;
 public class Chess {
 
 	enum Pieces {
-		wPawn (1), bPawn (-1), wKnight(2), bKnight(-2), wBishop(3), bBishop(-3), wRook(4), bRook(-4), wQueen(5), bQueen(-5), wKing(6), bKing(-6);
-		
+		wPawn(1), bPawn(-1), wKnight(2), bKnight(-2), wBishop(3), bBishop(-3), wRook(4), bRook(-4), wQueen(5),
+		bQueen(-5), wKing(6), bKing(-6);
+
 		int val;
-		
+
 		private Pieces(int val) {
-		    this.val = val;
+			this.val = val;
 		}
-		
+
 		public int getValue() {
-	        return val;
-	    }
+			return val;
+		}
 	}
 
 	enum Status {
 		EHitKingSchach, EOutOfFields, EUndefined, ENotMoved, NormalMove, HitPiece, EOutOfFieldsOrBlocked,
-		EOutOfFieldOrBlockedByOwnPiece, EOutOfFieldOrBlockedByPartnerPiece, KindfOfMagic, Rochade;
+		EOutOfFieldOrBlockedByOwnPiece, EOutOfFieldOrBlockedByPartnerPiece, KindfOfMagic, Rochade, HitPieceEnPassant;
 	}
 
 	Pieces[][] game = new Pieces[8][8];
+	int[] enWPassant = new int[2];
+	int[] enBPassant = new int[2];
+	
 
 	Chess() {
+		
+		// TODO Debeug
+		
+		enBPassant[0] = 3;
+		enBPassant[1] = 4;
 
 		groundStructure();
 		// System.out.println(test());
-		System.out.println(move(3, 0, 3, 4));
+		System.out.println(move(4, 4, 3, 5));
+		// System.out.println(Pieces.bKing.getValue());
 
 	}
 
@@ -45,7 +55,8 @@ public class Chess {
 		game[5][0] = Pieces.wBishop;
 		game[3][0] = Pieces.wQueen;
 		game[4][0] = Pieces.wKing;
-		//game[0][5] = Pieces.wKing; // TODO Debeug
+		// game[0][5] = Pieces.wKing; // TODO Debeug
+		game[3][4] = Pieces.bPawn; // TODO Debeug
 
 		game[0][7] = Pieces.bRook;
 		game[7][7] = Pieces.bRook;
@@ -55,7 +66,8 @@ public class Chess {
 		game[5][7] = Pieces.bBishop;
 		game[3][7] = Pieces.bQueen;
 		game[4][7] = Pieces.bKing;
-		//game[3][4] = Pieces.bKing; // TODO Debeug
+		// game[3][4] = Pieces.bKing; // TODO Debeug
+		game[4][4] = Pieces.wPawn; // TODO Debeug
 	}
 
 	void printGame() {
@@ -69,7 +81,7 @@ public class Chess {
 	}
 
 	Status move(int srcX, int srcY, int dstX, int dstY) {
-		if (srcX == dstX && srcY == dstY) {
+		if ((srcX == dstX && srcY == dstY) || game[srcX][srcY] == null) {
 			return Status.ENotMoved;
 		}
 		switch (game[srcX][srcY]) {
@@ -89,11 +101,54 @@ public class Chess {
 			return chkWQueen(srcX, srcY, dstX, dstY);
 		case bQueen:
 			return chkBQueen(srcX, srcY, dstX, dstY);
+		case wPawn:
+			return chkWPawn(srcX, srcY, dstX, dstY);
 		default:
 			return Status.EUndefined;
 
 		}
 
+	}
+
+	Status chkWPawn(int srcX, int srcY, int dstX, int dstY) {
+		Pieces p = game[dstX][dstY];
+		if (srcY + 1 == dstY) { // Ein Zug nach vorne
+			if (srcX == dstX) { // kein schlagen
+				if (p == null) { // keine Figur vor der Nase
+					if (dstY != 7) { // keine Magische Linie
+						return Status.NormalMove;
+					} else { // Umwandlung
+						return Status.KindfOfMagic;
+					}
+
+				} else { // Figur vor der Nase
+					return Status.EOutOfFieldsOrBlocked;
+				}
+			} else if (srcX + 1 == dstX || srcX - 1 == dstX) { // schlag nach rechts ODER links
+
+				if (p == null) { // en passant?
+					if (srcY == 4 && enBPassant[1] == dstY - 1 && enBPassant[0] == dstX) {
+						return Status.HitPieceEnPassant; // TODO Don't forget clean up
+					}
+					
+				} else if (isBlack(p)) {
+					if (p != Pieces.bKing) {
+						return Status.HitPiece;
+					} else {
+						return Status.EHitKingSchach;
+					}
+				} else {
+					return Status.EOutOfFieldOrBlockedByOwnPiece;
+				}
+			}
+		} else if (srcY == 1 && dstY == 3 && srcX == dstX) { // Doppelschritt
+			if (p == null) {
+				return Status.NormalMove;
+			} else {
+				return Status.EOutOfFieldsOrBlocked;
+			}
+		}
+		return Status.EOutOfFieldOrBlockedByOwnPiece;
 	}
 
 	boolean isBlack(Pieces piece) {
@@ -648,8 +703,8 @@ public class Chess {
 
 		int x = srcX;
 		int y = srcY;
-		
-		//Rook features
+
+		// Rook features
 
 		if (srcY == dstY) { // zug nach rechts oder links
 			if (srcX < dstX) { // zug nach rechts
@@ -757,7 +812,7 @@ public class Chess {
 				}
 			}
 		}
-	//Bishop features
+		// Bishop features
 		if (srcX < dstX) { // E
 			if (srcY < dstY) { // N
 				while (++x < 8 && ++y < 8) { // gehe nach EN
@@ -865,14 +920,14 @@ public class Chess {
 		}
 		return Status.EOutOfFieldsOrBlocked;
 	}
-	
+
 	Status chkWQueen(int srcX, int srcY, int dstX, int dstY) {
 		Pieces p;
 
 		int x = srcX;
 		int y = srcY;
-		
-		//Rook features
+
+		// Rook features
 
 		if (srcY == dstY) { // zug nach rechts oder links
 			if (srcX < dstX) { // zug nach rechts
@@ -980,7 +1035,7 @@ public class Chess {
 				}
 			}
 		}
-	//Bishop features
+		// Bishop features
 		if (srcX < dstX) { // E
 			if (srcY < dstY) { // N
 				while (++x < 8 && ++y < 8) { // gehe nach EN
