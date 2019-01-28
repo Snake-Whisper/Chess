@@ -388,7 +388,7 @@ public class Chess {
 
 		if (srcX < dstX) { // E
 			if (srcY < dstY) { // N
-				while (++x < 8 && ++y < 8) { // gehe nach NE
+				while (++x < 8 && ++y < 8) { // gehe nach EN
 					p = game[x][y];
 					if (p == null) { // leeres Feld?
 						if (x == dstX && y == dstY) { // Ziel?
@@ -413,7 +413,7 @@ public class Chess {
 					return Status.EOutOfFieldOrBlockedByOwnPiece;
 				}
 			} else { // S
-				while (++x < 8 && --y >= 0) { // gehe nach NW
+				while (++x < 8 && --y >= 0) { // gehe nach ES
 					p = game[x][y];
 					if (p == null) { // leeres Feld?
 						if (x == dstX && y == dstY) { // Ziel?
@@ -441,7 +441,7 @@ public class Chess {
 		}
 
 		else { // W
-			if (srcY < dstY) { // N
+			if (srcY < dstY) { // WN
 				while (--x >= 0 && ++y < 8) { // gehe nach WN TODO Check rumgepfuscht
 					p = game[x][y];
 					if (p == null) { // leeres Feld?
@@ -465,8 +465,8 @@ public class Chess {
 					// break; //eigene Figur sperrt
 					return Status.EOutOfFieldOrBlockedByOwnPiece;
 				}
-			} else { // W
-				while (--x >= 0 && --y >= 0) { // gehe nach SW
+			} else { // S
+				while (--x >= 0 && --y >= 0) { // gehe nach WS
 					p = game[x][y];
 					if (p == null) { // leeres Feld?
 						if (x == dstX && y == dstY) { // Ziel?
@@ -504,9 +504,9 @@ public class Chess {
 		int x = srcX;
 		int y = srcY;
 
-		if (srcX < dstX) { // N
-			if (srcY < dstY) { // E
-				while (++x < 8 && ++y < 8) { // gehe nach NE
+		if (srcX < dstX) { // E
+			if (srcY < dstY) { // N
+				while (++x < 8 && ++y < 8) { // gehe nach EN
 					p = game[x][y];
 					if (p == null) { // leeres Feld?
 						if (x == dstX && y == dstY) { // Ziel?
@@ -530,8 +530,8 @@ public class Chess {
 					// break; //eigene Figur sperrt
 					return Status.EOutOfFieldOrBlockedByOwnPiece;
 				}
-			} else { // W
-				while (++x < 8 && --y >= 0) { // gehe nach NW
+			} else { // S
+				while (++x < 8 && --y >= 0) { // gehe nach ES
 					p = game[x][y];
 					if (p == null) { // leeres Feld?
 						if (x == dstX && y == dstY) { // Ziel?
@@ -558,9 +558,9 @@ public class Chess {
 			}
 		}
 
-		else { // S
-			if (srcY < dstY) { // E
-				while (--x >= 0 && ++x < 8) { // gehe nach SE
+		else { // W
+			if (srcY < dstY) { // N
+				while (--x >= 0 && ++y < 8) { // gehe nach WN
 					p = game[x][y];
 					if (p == null) { // leeres Feld?
 						if (x == dstX && y == dstY) { // Ziel?
@@ -584,7 +584,7 @@ public class Chess {
 					return Status.EOutOfFieldOrBlockedByOwnPiece;
 				}
 			} else { // W
-				while (--x >= 0 && --y >= 0) { // gehe nach SW
+				while (--x >= 0 && --y >= 0) { // gehe nach WS
 					p = game[x][y];
 					if (p == null) { // leeres Feld?
 						if (x == dstX && y == dstY) { // Ziel?
