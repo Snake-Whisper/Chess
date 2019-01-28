@@ -27,14 +27,14 @@ public class Chess {
 
 		groundStructure();
 		// System.out.println(test());
-		System.out.println(move(3, 0, 2, 1));
+		System.out.println(move(3, 0, 3, 4));
 
 	}
 
 	void groundStructure() {
 		for (int x = 0; x < 8; x++) { // Bauern
-			//game[x][1] = Pieces.wPawn;
-			//game[x][6] = Pieces.bPawn;
+			game[x][1] = Pieces.wPawn;
+			game[x][6] = Pieces.bPawn;
 		}
 
 		game[0][0] = Pieces.wRook;
@@ -97,7 +97,7 @@ public class Chess {
 	}
 
 	boolean isBlack(Pieces piece) {
-		if (piece == null) {
+		/*if (piece == null) {
 			return false;
 		}
 		switch (piece) {
@@ -110,11 +110,15 @@ public class Chess {
 			return true;
 		default:
 			return false;
+		}*/
+		if (piece.getValue() < 0) {
+			return true;
 		}
+		return false;
 	}
 
 	boolean isWhite(Pieces piece) {
-		if (piece == null) {
+		/*if (piece == null) {
 			return false;
 		}
 		switch (piece) {
@@ -127,7 +131,11 @@ public class Chess {
 			return true;
 		default:
 			return false;
+		}*/
+		if (piece.getValue() > 0) {
+			return true;
 		}
+		return false;
 	}
 //TODO Implement Rochade
 
