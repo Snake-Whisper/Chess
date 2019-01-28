@@ -97,20 +97,6 @@ public class Chess {
 	}
 
 	boolean isBlack(Pieces piece) {
-		/*if (piece == null) {
-			return false;
-		}
-		switch (piece) {
-		case bRook:
-		case bPawn:
-		case bQueen:
-		case bKing:
-		case bKnight:
-		case bBishop:
-			return true;
-		default:
-			return false;
-		}*/
 		if (piece.getValue() < 0) {
 			return true;
 		}
@@ -118,20 +104,6 @@ public class Chess {
 	}
 
 	boolean isWhite(Pieces piece) {
-		/*if (piece == null) {
-			return false;
-		}
-		switch (piece) {
-		case wRook:
-		case wPawn:
-		case wQueen:
-		case wKing:
-		case wKnight:
-		case wBishop:
-			return true;
-		default:
-			return false;
-		}*/
 		if (piece.getValue() > 0) {
 			return true;
 		}
