@@ -18,7 +18,7 @@ public class Chess {
 	}
 
 	enum Status {
-		EHitKingSchach, EOutOfFields, EUndefined, ENotMoved, NormalMove, HitPiece, EOutOfFieldsOrBlocked,
+		EHitKingSchach, EOutOfFields, EUndefined, ENoPieceMoved, NormalMove, HitPiece, EOutOfFieldsOrBlocked,
 		EOutOfFieldOrBlockedByOwnPiece, EOutOfFieldOrBlockedByPartnerPiece, KindfOfMagic, Rochade, HitPieceEnPassant;
 	}
 
@@ -31,8 +31,8 @@ public class Chess {
 		
 		// TODO Debeug
 		
-		enBPassant[0] = 3;
-		enBPassant[1] = 4;
+		//enBPassant[0] = 3;
+		//enBPassant[1] = 4;
 
 		groundStructure();
 		// System.out.println(test());
@@ -56,7 +56,7 @@ public class Chess {
 		game[3][0] = Pieces.wQueen;
 		game[4][0] = Pieces.wKing;
 		// game[0][5] = Pieces.wKing; // TODO Debeug
-		game[3][4] = Pieces.bPawn; // TODO Debeug
+		// game[3][4] = Pieces.bPawn; // TODO Debeug
 
 		game[0][7] = Pieces.bRook;
 		game[7][7] = Pieces.bRook;
@@ -67,7 +67,7 @@ public class Chess {
 		game[3][7] = Pieces.bQueen;
 		game[4][7] = Pieces.bKing;
 		// game[3][4] = Pieces.bKing; // TODO Debeug
-		game[4][4] = Pieces.wPawn; // TODO Debeug
+		// game[4][4] = Pieces.wPawn; // TODO Debeug
 	}
 
 	void printGame() {
@@ -82,7 +82,7 @@ public class Chess {
 
 	Status move(int srcX, int srcY, int dstX, int dstY) {
 		if ((srcX == dstX && srcY == dstY) || game[srcX][srcY] == null) {
-			return Status.ENotMoved;
+			return Status.ENoPieceMoved;
 		}
 		switch (game[srcX][srcY]) {
 		case wRook:
@@ -103,6 +103,8 @@ public class Chess {
 			return chkBQueen(srcX, srcY, dstX, dstY);
 		case wPawn:
 			return chkWPawn(srcX, srcY, dstX, dstY);
+		case bPawn:
+			return chkBPawn(srcX, srcY, dstX, dstY);
 		default:
 			return Status.EUndefined;
 
@@ -142,6 +144,47 @@ public class Chess {
 				}
 			}
 		} else if (srcY == 1 && dstY == 3 && srcX == dstX) { // Doppelschritt
+			if (p == null) {
+				return Status.NormalMove;
+			} else {
+				return Status.EOutOfFieldsOrBlocked;
+			}
+		}
+		return Status.EOutOfFieldOrBlockedByOwnPiece;
+	}
+	
+	Status chkBPawn(int srcX, int srcY, int dstX, int dstY) {
+		Pieces p = game[dstX][dstY];
+		if (srcY - 1 == dstY) { // Ein Zug nach vorne
+			if (srcX == dstX) { // kein schlagen
+				if (p == null) { // keine Figur vor der Nase
+					if (dstY != 0) { // keine Magische Linie
+						return Status.NormalMove;
+					} else { // Umwandlung
+						return Status.KindfOfMagic;
+					}
+
+				} else { // Figur vor der Nase
+					return Status.EOutOfFieldsOrBlocked;
+				}
+			} else if (srcX + 1 == dstX || srcX - 1 == dstX) { // schlag nach rechts ODER links
+
+				if (p == null) { // en passant?
+					if (srcY == 3 && enBPassant[1] == dstY + 1 && enBPassant[0] == dstX) {
+						return Status.HitPieceEnPassant; // TODO Don't forget clean up
+					}
+					
+				} else if (isWhite(p)) {
+					if (p != Pieces.wKing) {
+						return Status.HitPiece;
+					} else {
+						return Status.EHitKingSchach;
+					}
+				} else {
+					return Status.EOutOfFieldOrBlockedByOwnPiece;
+				}
+			}
+		} else if (srcY == 6 && dstY == 4 && srcX == dstX) { // Doppelschritt
 			if (p == null) {
 				return Status.NormalMove;
 			} else {
