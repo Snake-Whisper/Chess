@@ -22,9 +22,10 @@ public class Chess {
 		EOutOfFieldOrBlockedByOwnPiece, EOutOfFieldOrBlockedByPartnerPiece, KindfOfMagic, Rochade, HitPieceEnPassant;
 	}
 
-	Pieces[][] game = new Pieces[8][8];
-	int[] enWPassant = new int[2];
-	int[] enBPassant = new int[2];
+	private Pieces[][] game = new Pieces[8][8];
+	private int[] enWPassant = new int[2];
+	private int[] enBPassant = new int[2];
+	private boolean isWhite = true;
 	
 
 	Chess() {
@@ -39,6 +40,11 @@ public class Chess {
 		System.out.println(move(4, 4, 3, 5));
 		// System.out.println(Pieces.bKing.getValue());
 
+	}
+	
+	Chess(Pieces[][] game, boolean isWhite) {
+		game = this.game;
+		this.isWhite = isWhite;
 	}
 
 	void groundStructure() {
@@ -67,7 +73,7 @@ public class Chess {
 		game[3][7] = Pieces.bQueen;
 		game[4][7] = Pieces.bKing;
 		// game[3][4] = Pieces.bKing; // TODO Debeug
-		// game[4][4] = Pieces.wPawn; // TODO Debeug
+		game[4][4] = Pieces.wPawn; // TODO Debeug
 	}
 
 	void printGame() {
