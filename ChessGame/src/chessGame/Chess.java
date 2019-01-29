@@ -176,7 +176,7 @@ public class Chess {
 			} else if (srcX + 1 == dstX || srcX - 1 == dstX) { // schlag nach rechts ODER links
 
 				if (p == null) { // en passant?
-					if (srcY == 3 && enBPassant[1] == dstY + 1 && enBPassant[0] == dstX) {
+					if (srcY == 3 && enWPassant[1] == dstY + 1 && enBPassant[0] == dstX) {
 						return Status.HitPieceEnPassant; // TODO Don't forget clean up
 					}
 					
