@@ -23,4 +23,8 @@ public class Timer {
 		time = time.minusMillis(System.currentTimeMillis() - start);
 		return time.getSeconds();
 	}
+	
+	public long getSecondsLeft() {
+		return time.getSeconds();
+	}
 }
