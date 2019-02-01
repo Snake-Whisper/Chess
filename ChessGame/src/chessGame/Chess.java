@@ -18,33 +18,83 @@ public class Chess {
 	}
 
 	enum Status {
-		EHitKingSchach, EOutOfFields, EUndefined, ENoPieceMoved, NormalMove, HitPiece, EOutOfFieldsOrBlocked,
-		EOutOfFieldOrBlockedByOwnPiece, EOutOfFieldOrBlockedByPartnerPiece, KindfOfMagic, Rochade, HitPieceEnPassant;
+		EHitKingSchach(-1), EOutOfFields(-2), EUndefined(-3), ENoPieceMoved(-4), EOutOfFieldsOrBlocked(-5), EOutOfFieldOrBlockedByOwnPiece(-6),
+		EOutOfFieldOrBlockedByPartnerPiece(-7), EWrongPlayer(-8),  ESelectAMagicFigure(-9),
+		NormalMove(1), HitPiece(2), KindfOfMagic(3), Rochade(4), HitPieceEnPassant(5);
+		
+
+		int val;
+
+		private Status(int val) {
+			this.val = val;
+		}
+
+		public int getValue() {
+			return val;
+		}
 	}
 
 	private Pieces[][] game = new Pieces[8][8];
 	private int[] enWPassant = new int[2];
 	private int[] enBPassant = new int[2];
-	private boolean isWhite = true;
-	
+	private boolean isWhitePartner = true;
+	private Timer wTime;
+	private Timer bTime;
+	private boolean blocked = false;
 
 	Chess() {
-		
-		// TODO Debeug
-		
-		//enBPassant[0] = 3;
-		//enBPassant[1] = 4;
+
+		this.wTime = new Timer();
+		this.bTime = new Timer();
 
 		groundStructure();
-		// System.out.println(test());
 		System.out.println(move(4, 4, 3, 5));
-		// System.out.println(Pieces.bKing.getValue());
 
 	}
-	
-	Chess(Pieces[][] game, boolean isWhite) {
+
+	Chess(Pieces[][] game, boolean isWhite, int wTimeLeft, int bTimeLeft) {
 		game = this.game;
-		this.isWhite = isWhite;
+		this.isWhitePartner = isWhite;
+		this.wTime = new Timer(wTimeLeft);
+		this.bTime = new Timer(bTimeLeft);
+	}
+
+	Chess(int wTimeLeft, int bTimeLeft) {
+		this.wTime = new Timer(wTimeLeft);
+		this.bTime = new Timer(bTimeLeft);
+	}
+
+	Status move(int srcX, int srcY, int dstX, int dstY) {
+		if ((srcX == dstX && srcY == dstY) || game[srcX][srcY] == null) {
+			return Status.ENoPieceMoved;
+		}
+		if (!blocked) {
+			if (isWhitePartner && isWhite(game[srcX][srcY])) {
+				Status mv = chkMove(srcX, srcY, dstX, dstY);
+				if (mv.getValue() < 0) {
+					return mv;
+				} else {
+					switch (mv) {
+					case NormalMove:
+					case KindfOfMagic:
+						update(srcX, srcY, dstX, dstY);
+						return mv;
+					case HitPiece:
+						game[dstX][dstY] = null; // adios
+						update(srcX, srcY, dstX, dstY);
+						return mv;
+					case HitPieceEnPassant:
+						game[dstX][dstY - 1] = null; // en passant
+						update(srcX, srcY, dstX, dstY);
+						return mv;
+					default:
+						return Status.EUndefined;
+					}
+				}
+			}
+			return Status.EUndefined;
+		}
+		return Status.KindfOfMagic;
 	}
 
 	void groundStructure() {
@@ -73,7 +123,7 @@ public class Chess {
 		game[3][7] = Pieces.bQueen;
 		game[4][7] = Pieces.bKing;
 		// game[3][4] = Pieces.bKing; // TODO Debeug
-		game[4][4] = Pieces.wPawn; // TODO Debeug
+		// game[4][4] = Pieces.wPawn; // TODO Debeug
 	}
 
 	void printGame() {
@@ -86,10 +136,13 @@ public class Chess {
 
 	}
 
-	Status move(int srcX, int srcY, int dstX, int dstY) {
-		if ((srcX == dstX && srcY == dstY) || game[srcX][srcY] == null) {
-			return Status.ENoPieceMoved;
-		}
+	private void update(int srcX, int srcY, int dstX, int dstY) {
+		game[dstX][dstY] = game[srcX][srcY];
+		game[srcX][srcY] = null;
+	}
+
+	private Status chkMove(int srcX, int srcY, int dstX, int dstY) {
+		
 		switch (game[srcX][srcY]) {
 		case wRook:
 			return chkWRook(srcX, srcY, dstX, dstY);
@@ -138,7 +191,7 @@ public class Chess {
 					if (srcY == 4 && enBPassant[1] == dstY - 1 && enBPassant[0] == dstX) {
 						return Status.HitPieceEnPassant; // TODO Don't forget clean up
 					}
-					
+
 				} else if (isBlack(p)) {
 					if (p != Pieces.bKing) {
 						return Status.HitPiece;
@@ -158,7 +211,7 @@ public class Chess {
 		}
 		return Status.EOutOfFieldOrBlockedByOwnPiece;
 	}
-	
+
 	Status chkBPawn(int srcX, int srcY, int dstX, int dstY) {
 		Pieces p = game[dstX][dstY];
 		if (srcY - 1 == dstY) { // Ein Zug nach vorne
@@ -179,7 +232,7 @@ public class Chess {
 					if (srcY == 3 && enWPassant[1] == dstY + 1 && enBPassant[0] == dstX) {
 						return Status.HitPieceEnPassant; // TODO Don't forget clean up
 					}
-					
+
 				} else if (isWhite(p)) {
 					if (p != Pieces.wKing) {
 						return Status.HitPiece;
