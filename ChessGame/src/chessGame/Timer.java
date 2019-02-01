@@ -19,9 +19,8 @@ public class Timer {
 		start = System.currentTimeMillis();
 	}
 	
-	public long stop() {
+	public void stop() {
 		time = time.minusMillis(System.currentTimeMillis() - start);
-		return time.getSeconds();
 	}
 	
 	public long getSecondsLeft() {
