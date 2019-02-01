@@ -77,15 +77,15 @@ public class Chess {
 					switch (mv) {
 					case NormalMove:
 					case KindfOfMagic:
-						update(srcX, srcY, dstX, dstY);
+						mkMove(srcX, srcY, dstX, dstY);
 						return mv;
 					case HitPiece:
 						game[dstX][dstY] = null; // adios
-						update(srcX, srcY, dstX, dstY);
+						mkMove(srcX, srcY, dstX, dstY);
 						return mv;
 					case HitPieceEnPassant:
 						game[dstX][dstY - 1] = null; // en passant
-						update(srcX, srcY, dstX, dstY);
+						mkMove(srcX, srcY, dstX, dstY);
 						return mv;
 					case Rochade:
 						if (srcX < dstX) { //East
@@ -144,7 +144,7 @@ public class Chess {
 
 	}
 
-	private void update(int srcX, int srcY, int dstX, int dstY) {
+	private void mkMove(int srcX, int srcY, int dstX, int dstY) {
 		game[dstX][dstY] = game[srcX][srcY];
 		game[srcX][srcY] = null;
 	}
