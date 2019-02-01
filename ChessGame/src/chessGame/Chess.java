@@ -71,7 +71,7 @@ public class Chess {
 		if (!blocked) {
 			if (isWhitePartner && isWhite(game[srcX][srcY])) {
 				Status mv = chkMove(srcX, srcY, dstX, dstY);
-				if (mv.getValue() < 0) {
+				if (mv.getValue() < 0) { //Error
 					return mv;
 				} else {
 					switch (mv) {
@@ -86,6 +86,14 @@ public class Chess {
 					case HitPieceEnPassant:
 						game[dstX][dstY - 1] = null; // en passant
 						update(srcX, srcY, dstX, dstY);
+						return mv;
+					case Rochade:
+						if (srcX < dstX) { //East
+							System.out.println("do East Rochade");
+						}
+						else {
+							System.out.println("do West Rochade");
+						}
 						return mv;
 					default:
 						return Status.EUndefined;
