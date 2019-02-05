@@ -69,51 +69,87 @@ public class Chess {
 		if ((srcX == dstX && srcY == dstY) || game[srcX][srcY] == null) {
 			return Status.ENoPieceMoved;
 		}
-		if (!blocked) { //TODO implement KinfOfMagic function
+		if (!blocked) { // TODO implement KinfOfMagic function
 			if (isWhitePartner) {
-				if isWhite(game[srcX][srcY])) {
-			
-				Status mv = chkMove(srcX, srcY, dstX, dstY);
-				if (mv.getValue() < 0) { //Error
-					return mv;
-				} else {
-					switch (mv) {
-					case NormalMove:
-					case KindfOfMagic:
-						mkMove(srcX, srcY, dstX, dstY);
-						isWhitePartner = !isWhitePartner;
+				if (isWhite(game[srcX][srcY])) {
+
+					Status mv = chkMove(srcX, srcY, dstX, dstY);
+					if (mv.getValue() < 0) { // Error
 						return mv;
-					case HitPiece:
-						game[dstX][dstY] = null; // adios
-						mkMove(srcX, srcY, dstX, dstY);
-						isWhitePartner = !isWhitePartner;
-						return mv;
-					case HitPieceEnPassant:
-						game[dstX][dstY - 1] = null; // en passant
-						mkMove(srcX, srcY, dstX, dstY);
-						isWhitePartner = !isWhitePartner;
-						return mv;
-					case Rochade:
-						if (srcX < dstX) { //East
-							System.out.println("do East Rochade"); //TODO implement rochade
+					} else {
+						switch (mv) {
+						case NormalMove:
+						case KindfOfMagic:
+							mkMove(srcX, srcY, dstX, dstY);
+							isWhitePartner = !isWhitePartner; // TODO: Workd Swap?
+							return mv;
+						case HitPiece:
+							game[dstX][dstY] = null; // adios
+							mkMove(srcX, srcY, dstX, dstY);
+							isWhitePartner = !isWhitePartner;
+							return mv;
+						case HitPieceEnPassant:
+							game[dstX][dstY - 1] = null; // en passant
+							mkMove(srcX, srcY, dstX, dstY);
+							isWhitePartner = !isWhitePartner;
+							return mv;
+						case Rochade:
+							if (srcX < dstX) { // East
+								System.out.println("do East Rochade"); // TODO implement rochade
+							} else {
+								System.out.println("do West Rochade");
+							}
+							isWhitePartner = !isWhitePartner;
+							return mv;
+						default:
+							return Status.EUndefined;
 						}
-						else {
-							System.out.println("do West Rochade");
-						}
-						isWhitePartner = !isWhitePartner;
-						return mv;
-					default:
-						return Status.EUndefined;
 					}
+				} else {
+					return Status.EWrongPlayer;
 				}
 			} else {
-				return Status.EWrongPlayer;
+				if (isBlack(game[srcX][srcY])) {
+
+					Status mv = chkMove(srcX, srcY, dstX, dstY);
+					if (mv.getValue() < 0) { // Error
+						return mv;
+					} else {
+						switch (mv) {
+						case NormalMove:
+						case KindfOfMagic:
+							mkMove(srcX, srcY, dstX, dstY);
+							isWhitePartner = !isWhitePartner; // TODO: Workd Swap?
+							return mv;
+						case HitPiece:
+							game[dstX][dstY] = null; // adios
+							mkMove(srcX, srcY, dstX, dstY);
+							isWhitePartner = !isWhitePartner;
+							return mv;
+						case HitPieceEnPassant:
+							game[dstX][dstY + 1] = null; // en passant
+							mkMove(srcX, srcY, dstX, dstY);
+							isWhitePartner = !isWhitePartner;
+							return mv;
+						case Rochade:
+							if (srcX < dstX) { // East
+								System.out.println("do East Rochade"); // TODO implement rochade
+							} else {
+								System.out.println("do West Rochade");
+							}
+							isWhitePartner = !isWhitePartner;
+							return mv;
+						default:
+							return Status.EUndefined;
+						}
+					}
+				} else {
+					return Status.EWrongPlayer;
+				}
 			}
+		} else {
+			return Status.EKindOfMagicRequired;
 		}
-			// TODO implement for black figure
-			return Status.EUndefined;
-		}
-		return Status.EKindOfMagicRequired;
 	}
 
 	void groundStructure() {
@@ -154,24 +190,22 @@ public class Chess {
 		}
 
 	}
-	
-	public Status doMagic(Pieces PieceOfWish ) {
+
+	public Status doMagic(Pieces PieceOfWish) {
 		if (!blocked) {
 			return Status.EKindOfMagicForbidden;
 		} else {
 			if (isWhitePartner && PieceOfWish.getValue() > 0 && PieceOfWish != Pieces.wKing) {
 				game[this.magic][7] = PieceOfWish;
 				this.blocked = false;
-				isWhitePartner = !isWhitePartner; //switch
+				isWhitePartner = !isWhitePartner; // switch
 				return Status.NormalMove;
-			}
-			else if (!isWhitePartner && PieceOfWish.getValue() < 0 && PieceOfWish != Pieces.bKing ) {
+			} else if (!isWhitePartner && PieceOfWish.getValue() < 0 && PieceOfWish != Pieces.bKing) {
 				game[this.magic][0] = PieceOfWish;
 				this.blocked = false;
-				isWhitePartner = !isWhitePartner; //switch
+				isWhitePartner = !isWhitePartner; // switch
 				return Status.NormalMove;
-			}
-			else {
+			} else {
 				return Status.EKindOfMagicForbidden;
 			}
 		}
@@ -220,7 +254,7 @@ public class Chess {
 					if (dstY != 7) { // keine Magische Linie
 						return Status.NormalMove;
 					} else { // Umwandlung
-						this.blocked = true; //block game, after conversion has finished
+						this.blocked = true; // block game, after conversion has finished
 						this.magic = dstX;
 						return Status.KindfOfMagic;
 					}
