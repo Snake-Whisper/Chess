@@ -30,11 +30,11 @@ public class Test {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                try {
+                /*try {
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
                     ex.printStackTrace();
-                }
+                }*/
 
                 JFrame frame = new JFrame("Testing");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

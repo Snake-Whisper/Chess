@@ -1,14 +1,12 @@
 package chessClient;
 
 import java.awt.*;
-import java.awt.FlowLayout;
-import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 
-public class Clock extends JFrame{
+public class Clock extends JPanel{
 	
 	int chessBoarder = 50;
 
@@ -22,5 +20,10 @@ public class Clock extends JFrame{
 		cp.add(clock);
 		
 		
+	}
+	
+	public void paint(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g.create();
+		g2d.drawOval(8*Field.SIZE*, y, width, height);
 	}
 }
