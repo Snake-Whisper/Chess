@@ -10,11 +10,11 @@ import javax.swing.*;
 //import com.sun.xml.internal.ws.api.server.Container;
 
 public class Field extends JFrame {
-	static int SIZE = 100;
+	static int SIZE = 80;
 	static int xChessBoarder = 50;
 	static int yChessBoarder = 50;
-	static int ChessLabelDeep = 30;
-	static int chessBkDeep = 40;
+	static int ChessLabelDeep = 25;
+	static int chessBkDeep = 35;
 	Container cp;
 	Font ChessLabelFont = new Font("Serif",Font.BOLD, 24);
 	Color bk = new Color(132, 24, 0);
@@ -23,7 +23,7 @@ public class Field extends JFrame {
 	public Field() {
 		super();
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		setSize(1500, 1000);
+		setSize(1300, 800);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation((d.width - getSize().width) / 2, (d.height - getSize().height) / 2);
 		setTitle("chess");
@@ -33,7 +33,7 @@ public class Field extends JFrame {
 		makeSquares();
 		generateChessLabels();
 		makeChessBackground();
-		Clock cl = new Clock(cp, 200);
+		Clock cl = new Clock(cp, 180);
 		setVisible(true);
 	}
 	
@@ -75,7 +75,7 @@ public class Field extends JFrame {
 		JLabel[] yLabels = new JLabel[8];
 		for (int i=0; i<8; i++) {
 			xLabels[i] = new JLabel();
-			xLabels[i].setBounds(i*SIZE+xChessBoarder, yChessBoarder-ChessLabelDeep, SIZE, ChessLabelDeep);
+			xLabels[i].setBounds(i*SIZE+xChessBoarder, yChessBoarder-ChessLabelDeep-10, SIZE, ChessLabelDeep);
 			//xLabels[i].setBounds(0, yChessBoarder-30, SIZE, 30);
 			//xLabels[i].setBackground(Color.green);
 			//xLabels[i].setOpaque(true);
