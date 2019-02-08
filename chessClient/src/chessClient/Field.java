@@ -33,7 +33,7 @@ public class Field extends JFrame {
 		makeSquares();
 		generateChessLabels();
 		makeChessBackground();
-		Clock cl = new Clock(cp, 180);
+		//Clock2 cl = new Clock2(cp, 180);
 		setVisible(true);
 	}
 	
