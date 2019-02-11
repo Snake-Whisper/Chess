@@ -28,7 +28,9 @@ public class Field extends JFrame {
 		generateChessLabels();
 		makeChessBackground();
 		// Clock2 cl = new Clock2(cp, 180);
-		// JPanel cl = new Clock();
+		JPanel cl = new Clock2();
+		cl.setBounds(100, 100, 50, 50);
+		add(cl);
 		setVisible(true);
 	}
 
