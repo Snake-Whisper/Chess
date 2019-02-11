@@ -21,12 +21,11 @@ public class Field extends JFrame {
 	//Color bk = new Color(84, 26, 0);
 	
 	public Field() {
-		super();
+		super("chess");
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setSize(1300, 800);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation((d.width - getSize().width) / 2, (d.height - getSize().height) / 2);
-		setTitle("chess");
 
 		cp = getContentPane();
 		cp.setLayout(null);
@@ -35,9 +34,6 @@ public class Field extends JFrame {
 		makeChessBackground();
 		//Clock2 cl = new Clock2(cp, 180);
 		//JPanel cl = new Clock();
-		//this.add(new Clock());
-		//cp.repaint();
-		//this.pack();
 		setVisible(true);
 	}
 	
