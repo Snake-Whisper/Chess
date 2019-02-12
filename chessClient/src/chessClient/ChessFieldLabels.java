@@ -1,5 +1,6 @@
 package chessClient;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,7 +12,7 @@ import javax.swing.JPanel;
 public class ChessFieldLabels extends JPanel{
 	
 	Font ChessLabelFont = new Font("Serif", Font.BOLD, 24);
-	GridBagConstraints CONSTRAINTS = new GridBagConstraints();
+	private GridBagConstraints CONSTRAINTS = new GridBagConstraints();
 
 	public ChessFieldLabels() {
 		
@@ -24,8 +25,6 @@ public class ChessFieldLabels extends JPanel{
 		CONSTRAINTS.gridx = 1;
 		CONSTRAINTS.gridy = 1;
 		CONSTRAINTS.gridwidth = 8;
-		CONSTRAINTS.gridwidth = 7;
-		CONSTRAINTS.gridwidth = 8;
 		CONSTRAINTS.gridheight = 8;
 		CONSTRAINTS.ipady = 0;
 		CONSTRAINTS.insets = new Insets(0, 0, 0, 0);
@@ -34,10 +33,24 @@ public class ChessFieldLabels extends JPanel{
 		CONSTRAINTS.gridwidth = 7;
 		
 		generateChessLabels();
+		test();
 		
 	}
 	
-	void generateChessLabels() {
+	private void test() {
+		CONSTRAINTS.gridx = 0;
+		CONSTRAINTS.gridy = 8;
+		CONSTRAINTS.gridwidth = 2;
+		CONSTRAINTS.gridheight = 2; //TODO use setBackgound to get bk. Disable fill both -> select correct
+		
+		JLabel testLabel = new JLabel();
+		testLabel.setOpaque(true);
+		testLabel.setBackground(Color.red);
+		
+		add(testLabel, CONSTRAINTS);
+	}
+
+	private void generateChessLabels() {
 		JLabel[] xLabels = new JLabel[8];
 		String chars = "ABCDEFGH";
 		
