@@ -1,4 +1,4 @@
-package chessClient;
+package ml.webUtils.chessClient;
 
 class Client {
 

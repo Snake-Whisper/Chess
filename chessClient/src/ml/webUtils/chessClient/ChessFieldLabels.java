@@ -1,4 +1,4 @@
-package chessClient;
+package ml.webUtils.chessClient;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -33,7 +33,7 @@ public class ChessFieldLabels extends JPanel{
 		CONSTRAINTS.gridwidth = 7;
 		
 		generateChessLabels();
-		test();
+		//test();
 		
 	}
 	

@@ -1,4 +1,4 @@
-package chessClient;
+package ml.webUtils.chessClient;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
