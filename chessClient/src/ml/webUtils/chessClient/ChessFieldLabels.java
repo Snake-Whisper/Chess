@@ -57,9 +57,9 @@ public class ChessFieldLabels extends JPanel{
 		CONSTRAINTS.gridwidth = 1;
 		CONSTRAINTS.gridheight = 1;
 		
-		JLabel[] yLabels = new JLabel[8];
+		JLabel[] yLabels = new JLabel[9];
 		
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < xLabels.length; i++) {
 			CONSTRAINTS.gridy = 0;
 			CONSTRAINTS.gridx = i+1;
 			CONSTRAINTS.insets = new Insets(0, 0, 5, 0);

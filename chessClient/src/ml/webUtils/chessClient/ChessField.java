@@ -1,9 +1,19 @@
 package ml.webUtils.chessClient;
 
-public class ChessField {
+import java.awt.Color;
+import java.awt.GridLayout;
+
+import javax.swing.JPanel;
+
+public class ChessField extends JPanel{
 
 	public ChessField() {
-		// TODO Auto-generated constructor stub
+		setLayout(new GridLayout());
+		this.setForeground(Color.red); //TODO set Background
+		this.setOpaque(true);
+		JPanel labledChess = new ChessFieldLabels();
+		add(labledChess);
+		
 	}
 
 }
