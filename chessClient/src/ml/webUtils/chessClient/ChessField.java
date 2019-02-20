@@ -9,7 +9,7 @@ public class ChessField extends JPanel{
 
 	public ChessField() {
 		setLayout(new GridLayout());
-		this.setForeground(Color.red); //TODO set Background
+		this.setBackground(Color.RED); //TODO set Background
 		this.setOpaque(true);
 		JPanel labledChess = new ChessFieldLabels();
 		add(labledChess);

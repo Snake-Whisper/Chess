@@ -24,13 +24,13 @@ public class Field extends JFrame {
 
 		cp = getContentPane();
 		cp.setLayout(null);
-		makeSquares();
-		generateChessLabels();
-		makeChessBackground();
+		//makeSquares();
+		//generateChessLabels();
+		//makeChessBackground();
 		// Clock2 cl = new Clock2(cp, 180);
 		//JPanel cl = new Clock2();
 		JPanel cl = new ChessField();
-		cl.setBounds(800, 100, 500, 500);
+		cl.setBounds(600, 100, 500, 500);
 		add(cl);
 		setVisible(true);
 	}
