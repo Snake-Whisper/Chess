@@ -20,8 +20,8 @@ public class Chess {
 	enum Status {
 		EHitKingSchach(-1), EOutOfFields(-2), EUndefined(-3), ENoPieceMoved(-4), EOutOfFieldsOrBlocked(-5),
 		EOutOfFieldOrBlockedByOwnPiece(-6), EOutOfFieldOrBlockedByPartnerPiece(-7), EWrongPlayer(-8),
-		ESelectAMagicFigure(-9), EKindOfMagicRequired(-10), EKindOfMagicForbidden(-11), NormalMove(1), HitPiece(2),
-		KindfOfMagic(3), Rochade(4), HitPieceEnPassant(5);
+		ESelectAMagicFigure(-9), EKindOfMagicRequired(-10), EKindOfMagicForbidden(-11), EbChess(-12), EwChess(-13),
+		NormalMove(1), HitPiece(2),	KindfOfMagic(3), Rochade(4), HitPieceEnPassant(5);
 
 		int val;
 
@@ -42,6 +42,8 @@ public class Chess {
 	private Timer wTime;
 	private Timer bTime;
 	private boolean blocked = false;
+	private int[] wKingPos = new int[2];
+	private int[] bKingPos = new int[2];
 
 	Chess() {
 
@@ -81,7 +83,7 @@ public class Chess {
 						case NormalMove:
 						case KindfOfMagic:
 							mkMove(srcX, srcY, dstX, dstY);
-							isWhitePartner = !isWhitePartner; // TODO: Workd Swap?
+							isWhitePartner = !isWhitePartner; // TODO: Work Swap?
 							return mv;
 						case HitPiece:
 							game[dstX][dstY] = null; // adios
@@ -119,7 +121,7 @@ public class Chess {
 						case NormalMove:
 						case KindfOfMagic:
 							mkMove(srcX, srcY, dstX, dstY);
-							isWhitePartner = !isWhitePartner; // TODO: Workd Swap?
+							isWhitePartner = !isWhitePartner; // TODO: Work Swap?
 							return mv;
 						case HitPiece:
 							game[dstX][dstY] = null; // adios
@@ -166,6 +168,8 @@ public class Chess {
 		game[5][0] = Pieces.wBishop;
 		game[3][0] = Pieces.wQueen;
 		game[4][0] = Pieces.wKing;
+		wKingPos[0] = 4;
+		wKingPos[1] = 0;
 		// game[0][5] = Pieces.wKing; // TODO Debeug
 		// game[3][4] = Pieces.bPawn; // TODO Debeug
 
@@ -177,6 +181,8 @@ public class Chess {
 		game[5][7] = Pieces.bBishop;
 		game[3][7] = Pieces.bQueen;
 		game[4][7] = Pieces.bKing;
+		bKingPos[0] = 4;
+		bKingPos[1] = 7;
 		// game[3][4] = Pieces.bKing; // TODO Debeug
 		// game[4][4] = Pieces.wPawn; // TODO Debeug
 	}
@@ -190,7 +196,67 @@ public class Chess {
 		}
 
 	}
-
+	
+	public Status chkWChess() {
+		int x = wKingPos[0];
+		int y = wKingPos[1];
+		
+		Pieces figur;
+		
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		
+		//x-dir
+		
+		while ((figur = game[x][y]) == null && x < 8) {
+			x++;
+		}
+		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
+				(figur == Pieces.bKing && Math.abs(x-wKingPos[0]) == 1)) { //TODO: chk if right king selected to look for ref
+			return Status.EwChess;
+		}
+		
+		x = wKingPos[0];
+		while ((figur = game[x][y]) == null && x >= 0) {
+			x--;
+		}
+		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
+				(figur == Pieces.bKing && Math.abs(x-wKingPos[0]) == 1)) {
+			return Status.EwChess;
+		}
+		
+		//y-dir
+		
+		x = wKingPos[0];
+		
+		while ((figur = game[x][y]) == null && y < 8) {
+			y++;
+		}
+		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
+				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1)) {
+			return Status.EwChess;
+		}
+		y = wKingPos[1];
+		while ((figur = game[x][y]) == null && y >= 0) {
+			y--;
+		}
+		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
+				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1)) {
+			return Status.EwChess;
+		}
+		
+		y = wKingPos[1];
+		//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+		
+		while ((figur = game[x][y]) == null && y<8 && x<8) {
+			x++;
+			y++;
+		}
+		if (figur == Pieces.bKnight || 
+				((figur == Pieces.bKing || figur == Pieces.bPawn) && Math.abs(y-))) {
+			
+		}
+	}
+	
 	public Status doMagic(Pieces PieceOfWish) {
 		if (!blocked) {
 			return Status.EKindOfMagicForbidden;
