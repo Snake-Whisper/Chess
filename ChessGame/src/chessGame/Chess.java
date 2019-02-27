@@ -21,7 +21,7 @@ public class Chess {
 		EHitKingSchach(-1), EOutOfFields(-2), EUndefined(-3), ENoPieceMoved(-4), EOutOfFieldsOrBlocked(-5),
 		EOutOfFieldOrBlockedByOwnPiece(-6), EOutOfFieldOrBlockedByPartnerPiece(-7), EWrongPlayer(-8),
 		ESelectAMagicFigure(-9), EKindOfMagicRequired(-10), EKindOfMagicForbidden(-11), EbChess(-12), EwChess(-13),
-		NormalMove(1), HitPiece(2),	KindfOfMagic(3), Rochade(4), HitPieceEnPassant(5);
+		NormalMove(1), HitPiece(2),	KindfOfMagic(3), Rochade(4), HitPieceEnPassant(5), NoChess(6);
 
 		int val;
 
@@ -211,7 +211,7 @@ public class Chess {
 			x++;
 		}
 		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
-				(figur == Pieces.bKing && Math.abs(x-wKingPos[0]) == 1)) { //TODO: chk if right king selected to look for ref
+				(figur == Pieces.bKing && Math.abs(x-wKingPos[0]) == 1)) {
 			return Status.EwChess;
 		}
 		
@@ -247,14 +247,48 @@ public class Chess {
 		y = wKingPos[1];
 		//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		
-		while ((figur = game[x][y]) == null && y<8 && x<8) {
+		while ((figur = game[x][y]) == null && y<8 && x<8) {//NE
 			x++;
 			y++;
 		}
-		if (figur == Pieces.bKnight || 
-				((figur == Pieces.bKing || figur == Pieces.bPawn) && Math.abs(y-))) {
-			
+		if (figur == Pieces.bBishop || figur == Pieces.bQueen || //TODO: implement pawn check
+				((figur == Pieces.bKing || figur == Pieces.bPawn) && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)){
+			return Status.EwChess;
 		}
+		x = wKingPos[0];
+		y = wKingPos[1];
+		
+		while ((figur = game[x][y]) == null && y<8 && x>=0) {//NW
+			x--;
+			y++;
+		}
+		if (figur == Pieces.bBishop || figur == Pieces.bQueen || 
+				((figur == Pieces.bKing || figur == Pieces.bPawn) && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)) {
+			return Status.EwChess;
+		}
+		x = wKingPos[0];
+		y = wKingPos[1];
+		
+		while ((figur = game[x][y]) == null && y>=0 && x<8) {//SE
+			x++;
+			y--;
+		}
+		if (figur == Pieces.bBishop || figur == Pieces.bQueen || 
+				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)) {
+			return Status.EwChess;
+		}
+		x = wKingPos[0];
+		y = wKingPos[1];
+		
+		while ((figur = game[x][y]) == null && y>=0 && x>=8) {//SW
+			x--;
+			y--;
+		}
+		if (figur == Pieces.bBishop || figur == Pieces.bQueen || 
+				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)) {
+			return Status.EwChess;
+		}
+		return Status.NoChess;
 	}
 	
 	public Status doMagic(Pieces PieceOfWish) {
