@@ -63,7 +63,7 @@ public class Chess {
 		this.bTime = new Timer();
 
 		groundStructure();
-		System.out.println(move(4, 4, 3, 5));
+		//System.out.println(move(4, 4, 3, 5)); //TODO: DEBUG
 
 	}
 
@@ -80,11 +80,9 @@ public class Chess {
 		game[2][0] = Pieces.wBishop;
 		game[5][0] = Pieces.wBishop;
 		game[3][0] = Pieces.wQueen;
-		game[4][0] = Pieces.wKing;
+		game[4][0] = Pieces.wKing;		
 		wKingPos[0] = 4;
 		wKingPos[1] = 0;
-		// game[0][5] = Pieces.wKing; // TODO Debeug
-		// game[3][4] = Pieces.bPawn; // TODO Debeug
 
 		game[0][7] = Pieces.bRook;
 		game[7][7] = Pieces.bRook;
@@ -96,8 +94,113 @@ public class Chess {
 		game[4][7] = Pieces.bKing;
 		bKingPos[0] = 4;
 		bKingPos[1] = 7;
-		// game[3][4] = Pieces.bKing; // TODO Debeug
+		
+		// TODO: DEBUG
+		System.out.println("DEBUG MODE!!!");
+		wKingPos[0] = 4;
+		wKingPos[1] = 3;
+		game[4][3] = Pieces.wKing; // TODO Debeug
+		game[4][4] = Pieces.bQueen;
+		
+		System.out.println(chkWChess());
 		// game[4][4] = Pieces.wPawn; // TODO Debeug
+	}
+
+	public Status chkWChess() {
+		int x = wKingPos[0];
+		int y = wKingPos[1];
+		
+		System.out.println(x);
+		System.out.println(y);
+		
+		Pieces figur;
+		
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		
+		//x-dir
+		
+		while ((figur = game[x][y]) == null && x < 8) {
+			x++;
+		}
+		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
+				(figur == Pieces.bKing && Math.abs(x-wKingPos[0]) == 1)) {
+			return Status.EwChess;
+		}
+		
+		x = wKingPos[0];
+		while ((figur = game[x][y]) == null && x >= 0) {
+			x--;
+		}
+		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
+				(figur == Pieces.bKing && Math.abs(x-wKingPos[0]) == 1)) {
+			return Status.EwChess;
+		}
+		
+		//y-dir
+		
+		x = wKingPos[0];
+		
+		while ((figur = game[x][y]) == null && y < 8) {
+			y++;
+		}
+		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
+				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1)) {
+			return Status.EwChess;
+		}
+		y = wKingPos[1];
+		while ((figur = game[x][y]) == null && y >= 0) {
+			y--;
+		}
+		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
+				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1)) {
+			return Status.EwChess;
+		}
+		
+		y = wKingPos[1];
+		//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+		
+		while ((figur = game[x][y]) == null && y<8 && x<8) {//NE
+			x++;
+			y++;
+		}
+		if (figur == Pieces.bBishop || figur == Pieces.bQueen || //TODO: implement pawn check
+				((figur == Pieces.bKing || figur == Pieces.bPawn) && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)){
+			return Status.EwChess;
+		}
+		x = wKingPos[0];
+		y = wKingPos[1];
+		
+		while ((figur = game[x][y]) == null && y<8 && x>=0) {//NW
+			x--;
+			y++;
+		}
+		if (figur == Pieces.bBishop || figur == Pieces.bQueen || 
+				((figur == Pieces.bKing || figur == Pieces.bPawn) && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)) {
+			return Status.EwChess;
+		}
+		x = wKingPos[0];
+		y = wKingPos[1];
+		
+		while ((figur = game[x][y]) == null && y>=0 && x<8) {//SE
+			x++;
+			y--;
+		}
+		if (figur == Pieces.bBishop || figur == Pieces.bQueen || 
+				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)) {
+			return Status.EwChess;
+		}
+		x = wKingPos[0];
+		y = wKingPos[1];
+		
+		while ((figur = game[x][y]) == null && y>=0 && x>=8) {//SW
+			x--;
+			y--;
+		}
+		if (figur == Pieces.bBishop || figur == Pieces.bQueen || 
+				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)) {
+			return Status.EwChess;
+		}
+		return Status.NoChess;
 	}
 
 	Status move(int srcX, int srcY, int dstX, int dstY) {
@@ -195,100 +298,6 @@ public class Chess {
 			System.out.println();
 		}
 
-	}
-	
-	public Status chkWChess() {
-		int x = wKingPos[0];
-		int y = wKingPos[1];
-		
-		Pieces figur;
-		
-		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		
-		//x-dir
-		
-		while ((figur = game[x][y]) == null && x < 8) {
-			x++;
-		}
-		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
-				(figur == Pieces.bKing && Math.abs(x-wKingPos[0]) == 1)) {
-			return Status.EwChess;
-		}
-		
-		x = wKingPos[0];
-		while ((figur = game[x][y]) == null && x >= 0) {
-			x--;
-		}
-		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
-				(figur == Pieces.bKing && Math.abs(x-wKingPos[0]) == 1)) {
-			return Status.EwChess;
-		}
-		
-		//y-dir
-		
-		x = wKingPos[0];
-		
-		while ((figur = game[x][y]) == null && y < 8) {
-			y++;
-		}
-		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
-				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1)) {
-			return Status.EwChess;
-		}
-		y = wKingPos[1];
-		while ((figur = game[x][y]) == null && y >= 0) {
-			y--;
-		}
-		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
-				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1)) {
-			return Status.EwChess;
-		}
-		
-		y = wKingPos[1];
-		//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-		
-		while ((figur = game[x][y]) == null && y<8 && x<8) {//NE
-			x++;
-			y++;
-		}
-		if (figur == Pieces.bBishop || figur == Pieces.bQueen || //TODO: implement pawn check
-				((figur == Pieces.bKing || figur == Pieces.bPawn) && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)){
-			return Status.EwChess;
-		}
-		x = wKingPos[0];
-		y = wKingPos[1];
-		
-		while ((figur = game[x][y]) == null && y<8 && x>=0) {//NW
-			x--;
-			y++;
-		}
-		if (figur == Pieces.bBishop || figur == Pieces.bQueen || 
-				((figur == Pieces.bKing || figur == Pieces.bPawn) && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)) {
-			return Status.EwChess;
-		}
-		x = wKingPos[0];
-		y = wKingPos[1];
-		
-		while ((figur = game[x][y]) == null && y>=0 && x<8) {//SE
-			x++;
-			y--;
-		}
-		if (figur == Pieces.bBishop || figur == Pieces.bQueen || 
-				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)) {
-			return Status.EwChess;
-		}
-		x = wKingPos[0];
-		y = wKingPos[1];
-		
-		while ((figur = game[x][y]) == null && y>=0 && x>=8) {//SW
-			x--;
-			y--;
-		}
-		if (figur == Pieces.bBishop || figur == Pieces.bQueen || 
-				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)) {
-			return Status.EwChess;
-		}
-		return Status.NoChess;
 	}
 	
 	public Status doMagic(Pieces PieceOfWish) {
