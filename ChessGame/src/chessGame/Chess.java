@@ -45,16 +45,6 @@ public class Chess {
 	private int[] wKingPos = new int[2];
 	private int[] bKingPos = new int[2];
 
-	Chess() {
-
-		this.wTime = new Timer();
-		this.bTime = new Timer();
-
-		groundStructure();
-		System.out.println(move(4, 4, 3, 5));
-
-	}
-
 	Chess(Pieces[][] game, boolean isWhite, int wTimeLeft, int bTimeLeft) {
 		game = this.game;
 		this.isWhitePartner = isWhite;
@@ -65,6 +55,49 @@ public class Chess {
 	Chess(int wTimeLeft, int bTimeLeft) {
 		this.wTime = new Timer(wTimeLeft);
 		this.bTime = new Timer(bTimeLeft);
+	}
+	
+	Chess() {
+
+		this.wTime = new Timer();
+		this.bTime = new Timer();
+
+		groundStructure();
+		System.out.println(move(4, 4, 3, 5));
+
+	}
+
+	void groundStructure() {
+		for (int x = 0; x < 8; x++) { // Bauern
+			game[x][1] = Pieces.wPawn;
+			game[x][6] = Pieces.bPawn;
+		}
+
+		game[0][0] = Pieces.wRook;
+		game[7][0] = Pieces.wRook;
+		game[1][0] = Pieces.wKnight;
+		game[6][0] = Pieces.wKnight;
+		game[2][0] = Pieces.wBishop;
+		game[5][0] = Pieces.wBishop;
+		game[3][0] = Pieces.wQueen;
+		game[4][0] = Pieces.wKing;
+		wKingPos[0] = 4;
+		wKingPos[1] = 0;
+		// game[0][5] = Pieces.wKing; // TODO Debeug
+		// game[3][4] = Pieces.bPawn; // TODO Debeug
+
+		game[0][7] = Pieces.bRook;
+		game[7][7] = Pieces.bRook;
+		game[1][7] = Pieces.bKnight;
+		game[6][7] = Pieces.bKnight;
+		game[2][7] = Pieces.bBishop;
+		game[5][7] = Pieces.bBishop;
+		game[3][7] = Pieces.bQueen;
+		game[4][7] = Pieces.bKing;
+		bKingPos[0] = 4;
+		bKingPos[1] = 7;
+		// game[3][4] = Pieces.bKing; // TODO Debeug
+		// game[4][4] = Pieces.wPawn; // TODO Debeug
 	}
 
 	Status move(int srcX, int srcY, int dstX, int dstY) {
@@ -152,39 +185,6 @@ public class Chess {
 		} else {
 			return Status.EKindOfMagicRequired;
 		}
-	}
-
-	void groundStructure() {
-		for (int x = 0; x < 8; x++) { // Bauern
-			game[x][1] = Pieces.wPawn;
-			game[x][6] = Pieces.bPawn;
-		}
-
-		game[0][0] = Pieces.wRook;
-		game[7][0] = Pieces.wRook;
-		game[1][0] = Pieces.wKnight;
-		game[6][0] = Pieces.wKnight;
-		game[2][0] = Pieces.wBishop;
-		game[5][0] = Pieces.wBishop;
-		game[3][0] = Pieces.wQueen;
-		game[4][0] = Pieces.wKing;
-		wKingPos[0] = 4;
-		wKingPos[1] = 0;
-		// game[0][5] = Pieces.wKing; // TODO Debeug
-		// game[3][4] = Pieces.bPawn; // TODO Debeug
-
-		game[0][7] = Pieces.bRook;
-		game[7][7] = Pieces.bRook;
-		game[1][7] = Pieces.bKnight;
-		game[6][7] = Pieces.bKnight;
-		game[2][7] = Pieces.bBishop;
-		game[5][7] = Pieces.bBishop;
-		game[3][7] = Pieces.bQueen;
-		game[4][7] = Pieces.bKing;
-		bKingPos[0] = 4;
-		bKingPos[1] = 7;
-		// game[3][4] = Pieces.bKing; // TODO Debeug
-		// game[4][4] = Pieces.wPawn; // TODO Debeug
 	}
 
 	void printGame() {
