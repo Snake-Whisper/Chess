@@ -107,184 +107,6 @@ public class Chess {
 	}
 
 
-	public Status chkBChess() {
-		int x = bKingPos[0];
-		int y = bKingPos[1];
-		
-		Pieces figur = null; //necessary, otherwise error: var may not be initialized
-		
-		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		
-		//x-dir
-		
-		while (++x < 8 && (figur = game[x][y]) == null) continue;
-		if (figur == Pieces.wQueen || figur == Pieces.wRook ||
-				(figur == Pieces.wKing && Math.abs(x-bKingPos[0]) == 1)) {
-			return Status.EbChess;
-		}
-		
-		x = bKingPos[0];
-		while (--x >= 0 && (figur = game[x][y]) == null) continue;
-		if (figur == Pieces.wQueen || figur == Pieces.wRook ||
-				(figur == Pieces.wKing && Math.abs(x-bKingPos[0]) == 1)) {
-			return Status.EbChess;
-		}
-		
-		//y-dir
-		
-		x = bKingPos[0];
-		
-		while (++y < 8 && (figur = game[x][y]) == null) continue;
-		if (figur == Pieces.wQueen || figur == Pieces.wRook ||
-				(figur == Pieces.wKing && Math.abs(y-bKingPos[1]) == 1)) {
-			return Status.EbChess;
-		}
-		y = bKingPos[1];
-		while (--y >= 0 && (figur = game[x][y]) == null) continue;
-		if (figur == Pieces.wQueen || figur == Pieces.wRook ||
-				(figur == Pieces.wKing && Math.abs(y-bKingPos[1]) == 1)) {
-			return Status.EbChess;
-		}
-		
-		y = bKingPos[1];
-		//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-		
-		while (++y < 8 && ++x < 8 && (figur = game[x][y]) == null) continue; //NE
-		if (figur == Pieces.wBishop || figur == Pieces.wQueen ||
-				((figur == Pieces.wKing) && Math.abs(y-bKingPos[1]) == 1 && Math.abs(x-bKingPos[0]) == 1)){
-			return Status.EbChess;
-		}
-		x = bKingPos[0];
-		y = bKingPos[1];
-		
-		while (++y < 8 && --x >= 0 && (figur = game[x][y]) == null) continue; //NW
-		if (figur == Pieces.wBishop || figur == Pieces.wQueen || 
-				((figur == Pieces.wKing) && Math.abs(y-bKingPos[1]) == 1 && Math.abs(x-bKingPos[0]) == 1)) {
-			return Status.EbChess;
-		}
-		x = bKingPos[0];
-		y = bKingPos[1];
-		
-		while (--y >= 0 && ++x < 8 && (figur = game[x][y]) == null) continue; //SE
-		if (figur == Pieces.wBishop || figur == Pieces.wQueen || 
-				((figur == Pieces.wKing || figur == Pieces.bPawn) && Math.abs(y-bKingPos[1]) == 1 && Math.abs(x-bKingPos[0]) == 1)) {
-			return Status.EbChess;
-		}
-		x = bKingPos[0];
-		y = bKingPos[1];
-		
-		while (--y >= 0 && --x >= 0 && (figur = game[x][y]) == null) continue; //SW
-		if (figur == Pieces.wBishop || figur == Pieces.wQueen || 
-				((figur == Pieces.wKing || figur == Pieces.wPawn) && Math.abs(y-bKingPos[1]) == 1 && Math.abs(x-bKingPos[0]) == 1)) {
-			return Status.EbChess;
-		}
-		x = bKingPos[0];
-		y = bKingPos[1];
-		
-		if (x+2 < 8 && y+1 < 8 && game[x+2][y+1] == Pieces.wKnight ||
-			x+2 < 8 && y-1 >= 0 && game[x+2][y-1] == Pieces.wKnight ||
-			x-2 >= 0 && y+1 < 8 && game[x-2][y+1] == Pieces.wKnight ||
-			x-2 >= 0 && y-1 >= 0 && game[x-2][y-1] == Pieces.wKnight ||
-			x+1 < 8 && y+2 < 8 && game[x+1][y+2] == Pieces.wKnight ||
-			x+1 < 8 && y-2 >= 0 && game[x+1][y-2] == Pieces.wKnight ||
-			x-1 >= 0 && y+2 < 8 && game[x-1][y+2] == Pieces.wKnight ||
-			x-1 >= 0 && y-2 >= 0 && game[x-1][y-2] == Pieces.wKnight)
-			return Status.EbChess;
-						
-		
-		
-		return Status.NoChess;
-	}
-	
-	public Status chkWChess() {
-		int x = wKingPos[0];
-		int y = wKingPos[1];
-		
-		Pieces figur = null; //necessary, otherwise error: var may not be initialized
-		
-		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		
-		//x-dir
-		
-		while (++x < 8 && (figur = game[x][y]) == null) continue;
-		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
-				(figur == Pieces.bKing && Math.abs(x-wKingPos[0]) == 1)) {
-			return Status.EwChess;
-		}
-		
-		x = wKingPos[0];
-		while (--x >= 0 && (figur = game[x][y]) == null) continue;
-		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
-				(figur == Pieces.bKing && Math.abs(x-wKingPos[0]) == 1)) {
-			return Status.EwChess;
-		}
-		
-		//y-dir
-		
-		x = wKingPos[0];
-		
-		while (++y < 8 && (figur = game[x][y]) == null) continue;
-		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
-				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1)) {
-			return Status.EwChess;
-		}
-		y = wKingPos[1];
-		while (--y >= 0 && (figur = game[x][y]) == null) continue;
-		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
-				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1)) {
-			return Status.EwChess;
-		}
-		
-		y = wKingPos[1];
-		//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-		
-		while (++y < 8 && ++x < 8 && (figur = game[x][y]) == null) continue; //NE
-		if (figur == Pieces.bBishop || figur == Pieces.bQueen ||
-				((figur == Pieces.bKing || figur == Pieces.bPawn) && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)){
-			return Status.EwChess;
-		}
-		x = wKingPos[0];
-		y = wKingPos[1];
-		
-		while (++y < 8 && --x >= 0 && (figur = game[x][y]) == null) continue; //NW
-		if (figur == Pieces.bBishop || figur == Pieces.bQueen || 
-				((figur == Pieces.bKing || figur == Pieces.bPawn) && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)) {
-			return Status.EwChess;
-		}
-		x = wKingPos[0];
-		y = wKingPos[1];
-		
-		while (--y >= 0 && ++x < 8 && (figur = game[x][y]) == null) continue; //SE
-		if (figur == Pieces.bBishop || figur == Pieces.bQueen || 
-				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)) {
-			return Status.EwChess;
-		}
-		x = wKingPos[0];
-		y = wKingPos[1];
-		
-		while (--y >= 0 && --x >= 0 && (figur = game[x][y]) == null) continue; //SW
-		if (figur == Pieces.bBishop || figur == Pieces.bQueen || 
-				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)) {
-			return Status.EwChess;
-		}
-		x = wKingPos[0];
-		y = wKingPos[1];
-		
-		if (x+2 < 8 && y+1 < 8 && game[x+2][y+1] == Pieces.bKnight ||
-			x+2 < 8 && y-1 >= 0 && game[x+2][y-1] == Pieces.bKnight ||
-			x-2 >= 0 && y+1 < 8 && game[x-2][y+1] == Pieces.bKnight ||
-			x-2 >= 0 && y-1 >= 0 && game[x-2][y-1] == Pieces.bKnight ||
-			x+1 < 8 && y+2 < 8 && game[x+1][y+2] == Pieces.bKnight ||
-			x+1 < 8 && y-2 >= 0 && game[x+1][y-2] == Pieces.bKnight ||
-			x-1 >= 0 && y+2 < 8 && game[x-1][y+2] == Pieces.bKnight ||
-			x-1 >= 0 && y-2 >= 0 && game[x-1][y-2] == Pieces.bKnight)
-			return Status.EwChess;
-						
-		
-		
-		return Status.NoChess;
-	}
-
 	Status move(int srcX, int srcY, int dstX, int dstY) {
 		if ((srcX == dstX && srcY == dstY) || game[srcX][srcY] == null) {
 			return Status.ENoPieceMoved;
@@ -435,6 +257,184 @@ public class Chess {
 
 		}
 
+	}
+
+	public Status chkBChess() {
+		int x = bKingPos[0];
+		int y = bKingPos[1];
+		
+		Pieces figur = null; //necessary, otherwise error: var may not be initialized
+		
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		
+		//x-dir
+		
+		while (++x < 8 && (figur = game[x][y]) == null) continue;
+		if (figur == Pieces.wQueen || figur == Pieces.wRook ||
+				(figur == Pieces.wKing && Math.abs(x-bKingPos[0]) == 1)) {
+			return Status.EbChess;
+		}
+		
+		x = bKingPos[0];
+		while (--x >= 0 && (figur = game[x][y]) == null) continue;
+		if (figur == Pieces.wQueen || figur == Pieces.wRook ||
+				(figur == Pieces.wKing && Math.abs(x-bKingPos[0]) == 1)) {
+			return Status.EbChess;
+		}
+		
+		//y-dir
+		
+		x = bKingPos[0];
+		
+		while (++y < 8 && (figur = game[x][y]) == null) continue;
+		if (figur == Pieces.wQueen || figur == Pieces.wRook ||
+				(figur == Pieces.wKing && Math.abs(y-bKingPos[1]) == 1)) {
+			return Status.EbChess;
+		}
+		y = bKingPos[1];
+		while (--y >= 0 && (figur = game[x][y]) == null) continue;
+		if (figur == Pieces.wQueen || figur == Pieces.wRook ||
+				(figur == Pieces.wKing && Math.abs(y-bKingPos[1]) == 1)) {
+			return Status.EbChess;
+		}
+		
+		y = bKingPos[1];
+		//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+		
+		while (++y < 8 && ++x < 8 && (figur = game[x][y]) == null) continue; //NE
+		if (figur == Pieces.wBishop || figur == Pieces.wQueen ||
+				((figur == Pieces.wKing) && Math.abs(y-bKingPos[1]) == 1 && Math.abs(x-bKingPos[0]) == 1)){
+			return Status.EbChess;
+		}
+		x = bKingPos[0];
+		y = bKingPos[1];
+		
+		while (++y < 8 && --x >= 0 && (figur = game[x][y]) == null) continue; //NW
+		if (figur == Pieces.wBishop || figur == Pieces.wQueen || 
+				((figur == Pieces.wKing) && Math.abs(y-bKingPos[1]) == 1 && Math.abs(x-bKingPos[0]) == 1)) {
+			return Status.EbChess;
+		}
+		x = bKingPos[0];
+		y = bKingPos[1];
+		
+		while (--y >= 0 && ++x < 8 && (figur = game[x][y]) == null) continue; //SE
+		if (figur == Pieces.wBishop || figur == Pieces.wQueen || 
+				((figur == Pieces.wKing || figur == Pieces.bPawn) && Math.abs(y-bKingPos[1]) == 1 && Math.abs(x-bKingPos[0]) == 1)) {
+			return Status.EbChess;
+		}
+		x = bKingPos[0];
+		y = bKingPos[1];
+		
+		while (--y >= 0 && --x >= 0 && (figur = game[x][y]) == null) continue; //SW
+		if (figur == Pieces.wBishop || figur == Pieces.wQueen || 
+				((figur == Pieces.wKing || figur == Pieces.wPawn) && Math.abs(y-bKingPos[1]) == 1 && Math.abs(x-bKingPos[0]) == 1)) {
+			return Status.EbChess;
+		}
+		x = bKingPos[0];
+		y = bKingPos[1];
+		
+		if (x+2 < 8 && y+1 < 8 && game[x+2][y+1] == Pieces.wKnight ||
+			x+2 < 8 && y-1 >= 0 && game[x+2][y-1] == Pieces.wKnight ||
+			x-2 >= 0 && y+1 < 8 && game[x-2][y+1] == Pieces.wKnight ||
+			x-2 >= 0 && y-1 >= 0 && game[x-2][y-1] == Pieces.wKnight ||
+			x+1 < 8 && y+2 < 8 && game[x+1][y+2] == Pieces.wKnight ||
+			x+1 < 8 && y-2 >= 0 && game[x+1][y-2] == Pieces.wKnight ||
+			x-1 >= 0 && y+2 < 8 && game[x-1][y+2] == Pieces.wKnight ||
+			x-1 >= 0 && y-2 >= 0 && game[x-1][y-2] == Pieces.wKnight)
+			return Status.EbChess;
+						
+		
+		
+		return Status.NoChess;
+	}
+
+	public Status chkWChess() {
+		int x = wKingPos[0];
+		int y = wKingPos[1];
+		
+		Pieces figur = null; //necessary, otherwise error: var may not be initialized
+		
+		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		
+		//x-dir
+		
+		while (++x < 8 && (figur = game[x][y]) == null) continue;
+		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
+				(figur == Pieces.bKing && Math.abs(x-wKingPos[0]) == 1)) {
+			return Status.EwChess;
+		}
+		
+		x = wKingPos[0];
+		while (--x >= 0 && (figur = game[x][y]) == null) continue;
+		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
+				(figur == Pieces.bKing && Math.abs(x-wKingPos[0]) == 1)) {
+			return Status.EwChess;
+		}
+		
+		//y-dir
+		
+		x = wKingPos[0];
+		
+		while (++y < 8 && (figur = game[x][y]) == null) continue;
+		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
+				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1)) {
+			return Status.EwChess;
+		}
+		y = wKingPos[1];
+		while (--y >= 0 && (figur = game[x][y]) == null) continue;
+		if (figur == Pieces.bQueen || figur == Pieces.bRook ||
+				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1)) {
+			return Status.EwChess;
+		}
+		
+		y = wKingPos[1];
+		//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+		
+		while (++y < 8 && ++x < 8 && (figur = game[x][y]) == null) continue; //NE
+		if (figur == Pieces.bBishop || figur == Pieces.bQueen ||
+				((figur == Pieces.bKing || figur == Pieces.bPawn) && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)){
+			return Status.EwChess;
+		}
+		x = wKingPos[0];
+		y = wKingPos[1];
+		
+		while (++y < 8 && --x >= 0 && (figur = game[x][y]) == null) continue; //NW
+		if (figur == Pieces.bBishop || figur == Pieces.bQueen || 
+				((figur == Pieces.bKing || figur == Pieces.bPawn) && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)) {
+			return Status.EwChess;
+		}
+		x = wKingPos[0];
+		y = wKingPos[1];
+		
+		while (--y >= 0 && ++x < 8 && (figur = game[x][y]) == null) continue; //SE
+		if (figur == Pieces.bBishop || figur == Pieces.bQueen || 
+				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)) {
+			return Status.EwChess;
+		}
+		x = wKingPos[0];
+		y = wKingPos[1];
+		
+		while (--y >= 0 && --x >= 0 && (figur = game[x][y]) == null) continue; //SW
+		if (figur == Pieces.bBishop || figur == Pieces.bQueen || 
+				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)) {
+			return Status.EwChess;
+		}
+		x = wKingPos[0];
+		y = wKingPos[1];
+		
+		if (x+2 < 8 && y+1 < 8 && game[x+2][y+1] == Pieces.bKnight ||
+			x+2 < 8 && y-1 >= 0 && game[x+2][y-1] == Pieces.bKnight ||
+			x-2 >= 0 && y+1 < 8 && game[x-2][y+1] == Pieces.bKnight ||
+			x-2 >= 0 && y-1 >= 0 && game[x-2][y-1] == Pieces.bKnight ||
+			x+1 < 8 && y+2 < 8 && game[x+1][y+2] == Pieces.bKnight ||
+			x+1 < 8 && y-2 >= 0 && game[x+1][y-2] == Pieces.bKnight ||
+			x-1 >= 0 && y+2 < 8 && game[x-1][y+2] == Pieces.bKnight ||
+			x-1 >= 0 && y-2 >= 0 && game[x-1][y-2] == Pieces.bKnight)
+			return Status.EwChess;
+						
+		
+		
+		return Status.NoChess;
 	}
 
 	Status chkWPawn(int srcX, int srcY, int dstX, int dstY) {
