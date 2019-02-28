@@ -305,6 +305,101 @@ public class Chess {
 		return chkBChessAtField(bKingPos[0], bKingPos[1]);
 	}
 	
+	private Status chkWChessAtField(int dstX, int dstY) {
+		int x = dstX;
+		int y = dstY;
+	
+		Pieces figur = null; // necessary, otherwise error: var may not be initialized
+	
+		// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	
+		// x-dir
+	
+		while (++x < 8 && (figur = game[x][y]) == null)
+			continue;
+		if (figur == Pieces.bQueen || figur == Pieces.bRook
+				|| (figur == Pieces.bKing && Math.abs(x - dstX) == 1)) {
+			return Status.EwChess;
+		}
+	
+		x = dstX;
+		while (--x >= 0 && (figur = game[x][y]) == null)
+			continue;
+		if (figur == Pieces.bQueen || figur == Pieces.bRook
+				|| (figur == Pieces.bKing && Math.abs(x - dstX) == 1)) {
+			return Status.EwChess;
+		}
+	
+		// y-dir
+	
+		x = dstX;
+	
+		while (++y < 8 && (figur = game[x][y]) == null)
+			continue;
+		if (figur == Pieces.bQueen || figur == Pieces.bRook
+				|| (figur == Pieces.bKing && Math.abs(y - dstY) == 1)) {
+			return Status.EwChess;
+		}
+		y = dstY;
+		while (--y >= 0 && (figur = game[x][y]) == null)
+			continue;
+		if (figur == Pieces.bQueen || figur == Pieces.bRook
+				|| (figur == Pieces.bKing && Math.abs(y - dstY) == 1)) {
+			return Status.EwChess;
+		}
+	
+		y = dstY;
+		// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	
+		while (++y < 8 && ++x < 8 && (figur = game[x][y]) == null)
+			continue; // NE
+		if (figur == Pieces.bBishop || figur == Pieces.bQueen || ((figur == Pieces.bKing || figur == Pieces.bPawn)
+				&& Math.abs(y - dstY) == 1 && Math.abs(x - dstX) == 1)) {
+			return Status.EwChess;
+		}
+		x = dstX;
+		y = dstY;
+	
+		while (++y < 8 && --x >= 0 && (figur = game[x][y]) == null)
+			continue; // NW
+		if (figur == Pieces.bBishop || figur == Pieces.bQueen || ((figur == Pieces.bKing || figur == Pieces.bPawn)
+				&& Math.abs(y - dstY) == 1 && Math.abs(x - dstX) == 1)) {
+			return Status.EwChess;
+		}
+		x = dstX;
+		y = dstY;
+	
+		while (--y >= 0 && ++x < 8 && (figur = game[x][y]) == null)
+			continue; // SE
+		if (figur == Pieces.bBishop || figur == Pieces.bQueen
+				|| (figur == Pieces.bKing && Math.abs(y - dstY) == 1 && Math.abs(x - dstX) == 1)) {
+			return Status.EwChess;
+		}
+		x = dstX;
+		y = dstY;
+	
+		while (--y >= 0 && --x >= 0 && (figur = game[x][y]) == null)
+			continue; // SW
+		if (figur == Pieces.bBishop || figur == Pieces.bQueen
+				|| (figur == Pieces.bKing && Math.abs(y - dstY) == 1 && Math.abs(x - dstX) == 1)) {
+			return Status.EwChess;
+		}
+		x = dstX;
+		y = dstY;
+	
+		if (x + 2 < 8 && y + 1 < 8 && game[x + 2][y + 1] == Pieces.bKnight
+				|| x + 2 < 8 && y - 1 >= 0 && game[x + 2][y - 1] == Pieces.bKnight
+				|| x - 2 >= 0 && y + 1 < 8 && game[x - 2][y + 1] == Pieces.bKnight
+				|| x - 2 >= 0 && y - 1 >= 0 && game[x - 2][y - 1] == Pieces.bKnight
+				|| x + 1 < 8 && y + 2 < 8 && game[x + 1][y + 2] == Pieces.bKnight
+				|| x + 1 < 8 && y - 2 >= 0 && game[x + 1][y - 2] == Pieces.bKnight
+				|| x - 1 >= 0 && y + 2 < 8 && game[x - 1][y + 2] == Pieces.bKnight
+				|| x - 1 >= 0 && y - 2 >= 0 && game[x - 1][y - 2] == Pieces.bKnight)
+			return Status.EwChess;
+	
+		return Status.NoChess;
+	}
+
 	private Status chkBChessAtField(int dstX, int dstY) {
 		int x = dstX;
 		int y = dstY;
@@ -399,101 +494,6 @@ public class Chess {
 		return Status.NoChess;
 	}
 
-	private Status chkWChessAtField(int dstX, int dstY) {
-		int x = dstX;
-		int y = dstY;
-
-		Pieces figur = null; // necessary, otherwise error: var may not be initialized
-
-		// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-		// x-dir
-
-		while (++x < 8 && (figur = game[x][y]) == null)
-			continue;
-		if (figur == Pieces.bQueen || figur == Pieces.bRook
-				|| (figur == Pieces.bKing && Math.abs(x - dstX) == 1)) {
-			return Status.EwChess;
-		}
-
-		x = dstX;
-		while (--x >= 0 && (figur = game[x][y]) == null)
-			continue;
-		if (figur == Pieces.bQueen || figur == Pieces.bRook
-				|| (figur == Pieces.bKing && Math.abs(x - dstX) == 1)) {
-			return Status.EwChess;
-		}
-
-		// y-dir
-
-		x = dstX;
-
-		while (++y < 8 && (figur = game[x][y]) == null)
-			continue;
-		if (figur == Pieces.bQueen || figur == Pieces.bRook
-				|| (figur == Pieces.bKing && Math.abs(y - dstY) == 1)) {
-			return Status.EwChess;
-		}
-		y = dstY;
-		while (--y >= 0 && (figur = game[x][y]) == null)
-			continue;
-		if (figur == Pieces.bQueen || figur == Pieces.bRook
-				|| (figur == Pieces.bKing && Math.abs(y - dstY) == 1)) {
-			return Status.EwChess;
-		}
-
-		y = dstY;
-		// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-		while (++y < 8 && ++x < 8 && (figur = game[x][y]) == null)
-			continue; // NE
-		if (figur == Pieces.bBishop || figur == Pieces.bQueen || ((figur == Pieces.bKing || figur == Pieces.bPawn)
-				&& Math.abs(y - dstY) == 1 && Math.abs(x - dstX) == 1)) {
-			return Status.EwChess;
-		}
-		x = dstX;
-		y = dstY;
-
-		while (++y < 8 && --x >= 0 && (figur = game[x][y]) == null)
-			continue; // NW
-		if (figur == Pieces.bBishop || figur == Pieces.bQueen || ((figur == Pieces.bKing || figur == Pieces.bPawn)
-				&& Math.abs(y - dstY) == 1 && Math.abs(x - dstX) == 1)) {
-			return Status.EwChess;
-		}
-		x = dstX;
-		y = dstY;
-
-		while (--y >= 0 && ++x < 8 && (figur = game[x][y]) == null)
-			continue; // SE
-		if (figur == Pieces.bBishop || figur == Pieces.bQueen
-				|| (figur == Pieces.bKing && Math.abs(y - dstY) == 1 && Math.abs(x - dstX) == 1)) {
-			return Status.EwChess;
-		}
-		x = dstX;
-		y = dstY;
-
-		while (--y >= 0 && --x >= 0 && (figur = game[x][y]) == null)
-			continue; // SW
-		if (figur == Pieces.bBishop || figur == Pieces.bQueen
-				|| (figur == Pieces.bKing && Math.abs(y - dstY) == 1 && Math.abs(x - dstX) == 1)) {
-			return Status.EwChess;
-		}
-		x = dstX;
-		y = dstY;
-
-		if (x + 2 < 8 && y + 1 < 8 && game[x + 2][y + 1] == Pieces.bKnight
-				|| x + 2 < 8 && y - 1 >= 0 && game[x + 2][y - 1] == Pieces.bKnight
-				|| x - 2 >= 0 && y + 1 < 8 && game[x - 2][y + 1] == Pieces.bKnight
-				|| x - 2 >= 0 && y - 1 >= 0 && game[x - 2][y - 1] == Pieces.bKnight
-				|| x + 1 < 8 && y + 2 < 8 && game[x + 1][y + 2] == Pieces.bKnight
-				|| x + 1 < 8 && y - 2 >= 0 && game[x + 1][y - 2] == Pieces.bKnight
-				|| x - 1 >= 0 && y + 2 < 8 && game[x - 1][y + 2] == Pieces.bKnight
-				|| x - 1 >= 0 && y - 2 >= 0 && game[x - 1][y - 2] == Pieces.bKnight)
-			return Status.EwChess;
-
-		return Status.NoChess;
-	}
-
 	private Status chkWPawn(int srcX, int srcY, int dstX, int dstY) {
 		Pieces p = game[dstX][dstY];
 		if (srcY + 1 == dstY) { // Ein Zug nach vorne
@@ -580,6 +580,13 @@ public class Chess {
 		return Status.EOutOfFieldOrBlockedByOwnPiece;
 	}
 
+	private boolean isWhite(Pieces piece) {
+		if (piece.getValue() > 0) {
+			return true;
+		}
+		return false;
+	}
+
 	private boolean isBlack(Pieces piece) {
 		if (piece.getValue() < 0) {
 			return true;
@@ -587,24 +594,20 @@ public class Chess {
 		return false;
 	}
 
-	private boolean isWhite(Pieces piece) {
-		if (piece.getValue() > 0) {
-			return true;
-		}
-		return false;
-	}
-//TODO Implement Rochade
+	
 
+	//TODO Implement Rochade
+	
 	private Status chkWRook(int srcX, int srcY, int dstX, int dstY) {
 		if (srcX != dstX && srcY != dstY) {
 			return Status.EOutOfFields;
 		}
-
+	
 		Pieces p;
-
+	
 		int x = srcX;
 		int y = srcY;
-
+	
 		if (srcY == dstY) { // zug nach rechts oder links
 			if (srcX < dstX) { // zug nach rechts
 				while (++x < 8) { // gehe nach rechts
@@ -631,9 +634,9 @@ public class Chess {
 					return Status.EOutOfFieldOrBlockedByOwnPiece;
 				}
 			} else { // zug nach links
-
+	
 				x = srcX;
-
+	
 				while (--x >= 0) { // gehe nach links
 					p = game[x][srcY];
 					if (p == null) { // wenn leeres Feld, dann
@@ -683,12 +686,12 @@ public class Chess {
 					// break; // die weise Figur sperrt
 					return Status.EOutOfFieldOrBlockedByOwnPiece;
 				}
-
+	
 			}
-
+	
 			// y = scrY;
 			else { // zug nach unten
-
+	
 				while (--y >= 0) { // gehe nach unten
 					p = game[srcX][y];
 					if (p == null) { // wenn leeres Feld, dann
@@ -713,11 +716,11 @@ public class Chess {
 					return Status.EOutOfFieldOrBlockedByOwnPiece;
 				}
 			}
-
+	
 		}
-
+	
 		return Status.EOutOfFieldsOrBlocked;
-
+	
 	}
 
 	private Status chkBRook(int srcX, int srcY, int dstX, int dstY) {
@@ -841,6 +844,126 @@ public class Chess {
 
 	}
 
+	//TODO Implement Rochade
+	
+	private Status chkWBishop(int srcX, int srcY, int dstX, int dstY) {
+		if (srcX == dstX || srcY == dstY) { // Fuer die, welche gerne eine Frau haetten...
+			return Status.EOutOfFields;
+		}
+	
+		Pieces p;
+		int x = srcX;
+		int y = srcY;
+	
+		if (srcX < dstX) { // E
+			if (srcY < dstY) { // N
+				while (++x < 8 && ++y < 8) { // gehe nach EN
+					p = game[x][y];
+					if (p == null) { // leeres Feld?
+						if (x == dstX && y == dstY) { // Ziel?
+							return Status.NormalMove;
+						} else {
+							continue; // naechstes Feld
+						}
+					}
+	
+					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
+						if (x == dstX && y == dstY) { // Ziel?
+							if (p != Pieces.bKing) { // Koenig?
+								return Status.HitPiece;
+							} else {
+								return Status.EHitKingSchach; // NO DeathForKing == Schach
+							}
+						}
+						// break; // schwarze Figur sperrt
+						return Status.EOutOfFieldOrBlockedByPartnerPiece;
+					}
+					// break; //eigene Figur sperrt
+					return Status.EOutOfFieldOrBlockedByOwnPiece;
+				}
+			} else { // S
+				while (++x < 8 && --y >= 0) { // gehe nach ES
+					p = game[x][y];
+					if (p == null) { // leeres Feld?
+						if (x == dstX && y == dstY) { // Ziel?
+							return Status.NormalMove;
+						} else {
+							continue; // naechstes Feld
+						}
+					}
+	
+					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
+						if (x == dstX && y == dstY) { // Ziel?
+							if (p != Pieces.bKing) { // Koenig?
+								return Status.HitPiece;
+							} else {
+								return Status.EHitKingSchach; // NO DeathForKing == Schach
+							}
+						}
+						// break; // schwarze Figur sperrt
+						return Status.EOutOfFieldOrBlockedByPartnerPiece;
+					}
+					// break; //eigene Figur sperrt
+					return Status.EOutOfFieldOrBlockedByOwnPiece;
+				}
+			}
+		}
+	
+		else { // W
+			if (srcY < dstY) { // N
+				while (--x >= 0 && ++y < 8) { // gehe nach WN
+					p = game[x][y];
+					if (p == null) { // leeres Feld?
+						if (x == dstX && y == dstY) { // Ziel?
+							return Status.NormalMove;
+						} else {
+							continue; // naechstes Feld
+						}
+					}
+					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
+						if (x == dstX && y == dstY) { // Ziel?
+							if (p != Pieces.bKing) { // Koenig?
+								return Status.HitPiece;
+							} else {
+								return Status.EHitKingSchach; // NO DeathForKing == Schach
+							}
+						}
+						// break; // schwarze Figur sperrt
+						return Status.EOutOfFieldOrBlockedByPartnerPiece;
+					}
+					// break; //eigene Figur sperrt
+					return Status.EOutOfFieldOrBlockedByOwnPiece;
+				}
+			} else { // W
+				while (--x >= 0 && --y >= 0) { // gehe nach WS
+					p = game[x][y];
+					if (p == null) { // leeres Feld?
+						if (x == dstX && y == dstY) { // Ziel?
+							return Status.NormalMove;
+						} else {
+							continue; // naechstes Feld
+						}
+					}
+					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
+						if (x == dstX && y == dstY) { // Ziel?
+							if (p != Pieces.bKing) { // Koenig?
+								return Status.HitPiece;
+							} else {
+								return Status.EHitKingSchach; // NO DeathForKing == Schach
+							}
+						}
+						// break; // schwarze Figur sperrt
+						return Status.EOutOfFieldOrBlockedByPartnerPiece;
+					}
+					// break; //eigene Figur sperrt
+					return Status.EOutOfFieldOrBlockedByOwnPiece;
+				}
+			}
+		}
+		return Status.EOutOfFieldsOrBlocked;
+	
+	}
+
 	private Status chkBBishop(int srcX, int srcY, int dstX, int dstY) {
 		if (srcX == dstX || srcY == dstY) { // Fuer die, welche gerne eine Frau haetten...
 			return Status.EOutOfFields;
@@ -959,122 +1082,29 @@ public class Chess {
 
 	}
 
-	private Status chkWBishop(int srcX, int srcY, int dstX, int dstY) {
-		if (srcX == dstX || srcY == dstY) { // Fuer die, welche gerne eine Frau haetten...
-			return Status.EOutOfFields;
-		}
-
-		Pieces p;
-		int x = srcX;
-		int y = srcY;
-
-		if (srcX < dstX) { // E
-			if (srcY < dstY) { // N
-				while (++x < 8 && ++y < 8) { // gehe nach EN
-					p = game[x][y];
-					if (p == null) { // leeres Feld?
-						if (x == dstX && y == dstY) { // Ziel?
-							return Status.NormalMove;
-						} else {
-							continue; // naechstes Feld
-						}
-					}
-
-					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
-						if (x == dstX && y == dstY) { // Ziel?
-							if (p != Pieces.bKing) { // Koenig?
-								return Status.HitPiece;
-							} else {
-								return Status.EHitKingSchach; // NO DeathForKing == Schach
-							}
-						}
-						// break; // schwarze Figur sperrt
-						return Status.EOutOfFieldOrBlockedByPartnerPiece;
-					}
-					// break; //eigene Figur sperrt
-					return Status.EOutOfFieldOrBlockedByOwnPiece;
-				}
-			} else { // S
-				while (++x < 8 && --y >= 0) { // gehe nach ES
-					p = game[x][y];
-					if (p == null) { // leeres Feld?
-						if (x == dstX && y == dstY) { // Ziel?
-							return Status.NormalMove;
-						} else {
-							continue; // naechstes Feld
-						}
-					}
-
-					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
-						if (x == dstX && y == dstY) { // Ziel?
-							if (p != Pieces.bKing) { // Koenig?
-								return Status.HitPiece;
-							} else {
-								return Status.EHitKingSchach; // NO DeathForKing == Schach
-							}
-						}
-						// break; // schwarze Figur sperrt
-						return Status.EOutOfFieldOrBlockedByPartnerPiece;
-					}
-					// break; //eigene Figur sperrt
-					return Status.EOutOfFieldOrBlockedByOwnPiece;
+	private Status chkWKnight(int srcX, int srcY, int dstX, int dstY) {
+		int x = Math.abs(srcX - dstX);
+		int y = Math.abs(srcY - dstY);
+	
+		if ((x == 2 && y == 1) || (x == 1 && y == 2)) {
+			Pieces p = game[dstX][dstY];
+			if (p == null) {
+				return Status.NormalMove;
+			}
+			if (isBlack(p)) {
+				if (p != Pieces.bKing) {
+					return Status.HitPiece;
+				} else {
+					return Status.EHitKingSchach;
 				}
 			}
-		}
-
-		else { // W
-			if (srcY < dstY) { // N
-				while (--x >= 0 && ++y < 8) { // gehe nach WN
-					p = game[x][y];
-					if (p == null) { // leeres Feld?
-						if (x == dstX && y == dstY) { // Ziel?
-							return Status.NormalMove;
-						} else {
-							continue; // naechstes Feld
-						}
-					}
-					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
-						if (x == dstX && y == dstY) { // Ziel?
-							if (p != Pieces.bKing) { // Koenig?
-								return Status.HitPiece;
-							} else {
-								return Status.EHitKingSchach; // NO DeathForKing == Schach
-							}
-						}
-						// break; // schwarze Figur sperrt
-						return Status.EOutOfFieldOrBlockedByPartnerPiece;
-					}
-					// break; //eigene Figur sperrt
-					return Status.EOutOfFieldOrBlockedByOwnPiece;
-				}
-			} else { // W
-				while (--x >= 0 && --y >= 0) { // gehe nach WS
-					p = game[x][y];
-					if (p == null) { // leeres Feld?
-						if (x == dstX && y == dstY) { // Ziel?
-							return Status.NormalMove;
-						} else {
-							continue; // naechstes Feld
-						}
-					}
-					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
-						if (x == dstX && y == dstY) { // Ziel?
-							if (p != Pieces.bKing) { // Koenig?
-								return Status.HitPiece;
-							} else {
-								return Status.EHitKingSchach; // NO DeathForKing == Schach
-							}
-						}
-						// break; // schwarze Figur sperrt
-						return Status.EOutOfFieldOrBlockedByPartnerPiece;
-					}
-					// break; //eigene Figur sperrt
-					return Status.EOutOfFieldOrBlockedByOwnPiece;
-				}
+	
+			if (isWhite(p)) {
+				return Status.EOutOfFieldOrBlockedByOwnPiece;
 			}
 		}
-		return Status.EOutOfFieldsOrBlocked;
-
+	
+		return Status.EOutOfFields;
 	}
 
 	private Status chkBKnight(int srcX, int srcY, int dstX, int dstY) {
@@ -1102,29 +1132,227 @@ public class Chess {
 		return Status.EOutOfFields;
 	}
 
-	private Status chkWKnight(int srcX, int srcY, int dstX, int dstY) {
-		int x = Math.abs(srcX - dstX);
-		int y = Math.abs(srcY - dstY);
-
-		if ((x == 2 && y == 1) || (x == 1 && y == 2)) {
-			Pieces p = game[dstX][dstY];
-			if (p == null) {
-				return Status.NormalMove;
-			}
-			if (isBlack(p)) {
-				if (p != Pieces.bKing) {
-					return Status.HitPiece;
-				} else {
-					return Status.EHitKingSchach;
+	private Status chkWQueen(int srcX, int srcY, int dstX, int dstY) {
+		Pieces p;
+	
+		int x = srcX;
+		int y = srcY;
+	
+		// Rook features
+	
+		if (srcY == dstY) { // zug nach rechts oder links
+			if (srcX < dstX) { // zug nach rechts
+				while (++x < 8) { // gehe nach rechts
+					p = game[x][srcY];
+					if (p == null) { // wenn leeres Feld, dann
+						if (x == dstX) { // pruefe ob ziel -> bestaetigt
+							return Status.NormalMove;
+						} else { // ansonsten:
+							continue; // suche mit naechstem Feld rechts weiter
+						}
+					}
+					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
+						if (x == dstX) { // pruefe ob ziel, wenn Ziel:
+							if (p != Pieces.bKing) { // pruefe ob Gegnerischer Koenig, wenn nicht
+								return Status.HitPiece; // dann wird Figur geschlagen
+							} else {
+								return Status.EHitKingSchach; // ansonsten: unerlaubter Zug: Finger weg von Koenig
+							}
+						}
+						// break; // die weisse Figur sperrt
+						return Status.EOutOfFieldOrBlockedByPartnerPiece;
+					}
+					// break; // die schwarzene Figur sperrt
+					return Status.EOutOfFieldOrBlockedByOwnPiece;
 				}
 			}
-
-			if (isWhite(p)) {
-				return Status.EOutOfFieldOrBlockedByOwnPiece;
+			// x = scrX;
+			else { // zug nach links
+	
+				while (--x >= 0) { // gehe nach links
+					p = game[x][srcY];
+					if (p == null) { // wenn leeres Feld, dann
+						if (x == dstX) { // pruefe ob ziel -> bestaetigt
+							return Status.NormalMove;
+						} else { // ansonsten:
+							continue; // suche mit naechstem Feld links weiter
+						}
+					}
+					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
+						if (x == dstX) { // pruefe ob ziel, wenn Ziel:
+							if (p != Pieces.bKing) { // pruefe ob Gegnerischer Koenig, wenn nicht
+								return Status.HitPiece; // dann wird Figur geschlagen
+							} else {
+								return Status.EHitKingSchach; // ansonsten: unerlaubter Zug: Finger weg von Koenig
+							}
+						}
+						// break; // die weise Figur sperrt
+						return Status.EOutOfFieldOrBlockedByPartnerPiece;
+					}
+					// break; // die schwarze Figur sperrt
+					return Status.EOutOfFieldOrBlockedByOwnPiece;
+				}
+			}
+		} else if (srcX == dstX) { // zug nach oben oder unten
+			if (srcY < dstY) { // zug nach oben
+				while (++y < 8) { // gehe nach oben
+					p = game[srcX][y];
+					if (p == null) { // wenn leeres Feld, dann
+						if (y == dstY) { // pruefe ob ziel -> bestaetigt
+							return Status.NormalMove;
+						} else { // ansonsten:
+							continue; // suche mit naechstem Feld oben weiter
+						}
+					}
+					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
+						if (y == dstY) { // pruefe ob ziel, wenn Ziel:
+							if (p != Pieces.bKing) { // pruefe ob Gegnerischer Koenig, wenn nicht
+								return Status.HitPiece; // dann wird Figur geschlagen
+							} else {
+								return Status.EHitKingSchach; // ansonsten: unerlaubter Zug: Finger weg von Koenig
+							}
+						}
+						// break; // die weisse Figur sperrt
+						return Status.EOutOfFieldOrBlockedByPartnerPiece;
+					}
+					// break; // die schwarze Figur sperrt
+					return Status.EOutOfFieldOrBlockedByOwnPiece;
+				}
+	
+				// y = scrY;
+			} else { // zug nach unten
+				while (--y >= 0) { // gehe nach unten
+					p = game[srcX][y];
+					if (p == null) { // wenn leeres Feld, dann
+						if (y == dstY) { // pruefe ob ziel -> bestaetigt
+							return Status.NormalMove;
+						} else { // ansonsten:
+							continue; // suche mit naechstem Feld unten weiter
+						}
+					}
+					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
+						if (y == dstY) { // pruefe ob ziel, wenn Ziel:
+							if (p != Pieces.bKing) { // pruefe ob Gegnerischer Koenig, wenn nicht
+								return Status.HitPiece; // dann wird Figur geschlagen
+							} else {
+								return Status.EHitKingSchach; // ansonsten: unerlaubter Zug: Finger weg von Koenig
+							}
+						}
+						// break; // die weisse Figur sperrt
+						return Status.EOutOfFieldOrBlockedByPartnerPiece;
+					}
+					// break; // die schwarze Figur sperrt
+					return Status.EOutOfFieldOrBlockedByOwnPiece;
+				}
 			}
 		}
-
-		return Status.EOutOfFields;
+		// Bishop features
+		if (srcX < dstX) { // E
+			if (srcY < dstY) { // N
+				while (++x < 8 && ++y < 8) { // gehe nach EN
+					p = game[x][y];
+					if (p == null) { // leeres Feld?
+						if (x == dstX && y == dstY) { // Ziel?
+							return Status.NormalMove;
+						} else {
+							continue; // naechstes Feld
+						}
+					}
+	
+					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
+						if (x == dstX && y == dstY) { // Ziel?
+							if (p != Pieces.bKing) { // Koenig?
+								return Status.HitPiece;
+							} else {
+								return Status.EHitKingSchach; // NO DeathForKing == Schach
+							}
+						}
+						// break; // schwarze Figur sperrt
+						return Status.EOutOfFieldOrBlockedByPartnerPiece;
+					}
+					// break; //eigene Figur sperrt
+					return Status.EOutOfFieldOrBlockedByOwnPiece;
+				}
+			} else { // S
+				while (++x < 8 && --y >= 0) { // gehe nach ES
+					p = game[x][y];
+					if (p == null) { // leeres Feld?
+						if (x == dstX && y == dstY) { // Ziel?
+							return Status.NormalMove;
+						} else {
+							continue; // naechstes Feld
+						}
+					}
+	
+					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
+						if (x == dstX && y == dstY) { // Ziel?
+							if (p != Pieces.bKing) { // Koenig?
+								return Status.HitPiece;
+							} else {
+								return Status.EHitKingSchach; // NO DeathForKing == Schach
+							}
+						}
+						// break; // schwarze Figur sperrt
+						return Status.EOutOfFieldOrBlockedByPartnerPiece;
+					}
+					// break; //eigene Figur sperrt
+					return Status.EOutOfFieldOrBlockedByOwnPiece;
+				}
+			}
+		}
+	
+		else { // W
+			if (srcY < dstY) { // N
+				while (--x >= 0 && ++y < 8) { // gehe nach WN TODO: Fix var and comments
+					p = game[x][y];
+					if (p == null) { // leeres Feld?
+						if (x == dstX && y == dstY) { // Ziel?
+							return Status.NormalMove;
+						} else {
+							continue; // naechstes Feld
+						}
+					}
+					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
+						if (x == dstX && y == dstY) { // Ziel?
+							if (p != Pieces.bKing) { // Koenig?
+								return Status.HitPiece;
+							} else {
+								return Status.EHitKingSchach; // NO DeathForKing == Schach
+							}
+						}
+						// break; // schwarze Figur sperrt
+						return Status.EOutOfFieldOrBlockedByPartnerPiece;
+					}
+					// break; //eigene Figur sperrt
+					return Status.EOutOfFieldOrBlockedByOwnPiece;
+				}
+			} else { // S
+				while (--x >= 0 && --y >= 0) { // gehe nach WS
+					p = game[x][y];
+					if (p == null) { // leeres Feld?
+						if (x == dstX && y == dstY) { // Ziel?
+							return Status.NormalMove;
+						} else {
+							continue; // naechstes Feld
+						}
+					}
+					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
+						if (x == dstX && y == dstY) { // Ziel?
+							if (p != Pieces.bKing) { // Koenig?
+								return Status.HitPiece;
+							} else {
+								return Status.EHitKingSchach; // NO DeathForKing == Schach
+							}
+						}
+						// break; // schwarze Figur sperrt
+						return Status.EOutOfFieldOrBlockedByPartnerPiece;
+					}
+					// break; //eigene Figur sperrt
+					return Status.EOutOfFieldOrBlockedByOwnPiece;
+				}
+			}
+		}
+		return Status.EOutOfFieldsOrBlocked;
 	}
 
 	private Status chkBQueen(int srcX, int srcY, int dstX, int dstY) {
@@ -1340,229 +1568,6 @@ public class Chess {
 							}
 						}
 						// break; // weisse Figur sperrt
-						return Status.EOutOfFieldOrBlockedByPartnerPiece;
-					}
-					// break; //eigene Figur sperrt
-					return Status.EOutOfFieldOrBlockedByOwnPiece;
-				}
-			}
-		}
-		return Status.EOutOfFieldsOrBlocked;
-	}
-
-	private Status chkWQueen(int srcX, int srcY, int dstX, int dstY) {
-		Pieces p;
-
-		int x = srcX;
-		int y = srcY;
-
-		// Rook features
-
-		if (srcY == dstY) { // zug nach rechts oder links
-			if (srcX < dstX) { // zug nach rechts
-				while (++x < 8) { // gehe nach rechts
-					p = game[x][srcY];
-					if (p == null) { // wenn leeres Feld, dann
-						if (x == dstX) { // pruefe ob ziel -> bestaetigt
-							return Status.NormalMove;
-						} else { // ansonsten:
-							continue; // suche mit naechstem Feld rechts weiter
-						}
-					}
-					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
-						if (x == dstX) { // pruefe ob ziel, wenn Ziel:
-							if (p != Pieces.bKing) { // pruefe ob Gegnerischer Koenig, wenn nicht
-								return Status.HitPiece; // dann wird Figur geschlagen
-							} else {
-								return Status.EHitKingSchach; // ansonsten: unerlaubter Zug: Finger weg von Koenig
-							}
-						}
-						// break; // die weisse Figur sperrt
-						return Status.EOutOfFieldOrBlockedByPartnerPiece;
-					}
-					// break; // die schwarzene Figur sperrt
-					return Status.EOutOfFieldOrBlockedByOwnPiece;
-				}
-			}
-			// x = scrX;
-			else { // zug nach links
-
-				while (--x >= 0) { // gehe nach links
-					p = game[x][srcY];
-					if (p == null) { // wenn leeres Feld, dann
-						if (x == dstX) { // pruefe ob ziel -> bestaetigt
-							return Status.NormalMove;
-						} else { // ansonsten:
-							continue; // suche mit naechstem Feld links weiter
-						}
-					}
-					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
-						if (x == dstX) { // pruefe ob ziel, wenn Ziel:
-							if (p != Pieces.bKing) { // pruefe ob Gegnerischer Koenig, wenn nicht
-								return Status.HitPiece; // dann wird Figur geschlagen
-							} else {
-								return Status.EHitKingSchach; // ansonsten: unerlaubter Zug: Finger weg von Koenig
-							}
-						}
-						// break; // die weise Figur sperrt
-						return Status.EOutOfFieldOrBlockedByPartnerPiece;
-					}
-					// break; // die schwarze Figur sperrt
-					return Status.EOutOfFieldOrBlockedByOwnPiece;
-				}
-			}
-		} else if (srcX == dstX) { // zug nach oben oder unten
-			if (srcY < dstY) { // zug nach oben
-				while (++y < 8) { // gehe nach oben
-					p = game[srcX][y];
-					if (p == null) { // wenn leeres Feld, dann
-						if (y == dstY) { // pruefe ob ziel -> bestaetigt
-							return Status.NormalMove;
-						} else { // ansonsten:
-							continue; // suche mit naechstem Feld oben weiter
-						}
-					}
-					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
-						if (y == dstY) { // pruefe ob ziel, wenn Ziel:
-							if (p != Pieces.bKing) { // pruefe ob Gegnerischer Koenig, wenn nicht
-								return Status.HitPiece; // dann wird Figur geschlagen
-							} else {
-								return Status.EHitKingSchach; // ansonsten: unerlaubter Zug: Finger weg von Koenig
-							}
-						}
-						// break; // die weisse Figur sperrt
-						return Status.EOutOfFieldOrBlockedByPartnerPiece;
-					}
-					// break; // die schwarze Figur sperrt
-					return Status.EOutOfFieldOrBlockedByOwnPiece;
-				}
-
-				// y = scrY;
-			} else { // zug nach unten
-				while (--y >= 0) { // gehe nach unten
-					p = game[srcX][y];
-					if (p == null) { // wenn leeres Feld, dann
-						if (y == dstY) { // pruefe ob ziel -> bestaetigt
-							return Status.NormalMove;
-						} else { // ansonsten:
-							continue; // suche mit naechstem Feld unten weiter
-						}
-					}
-					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
-						if (y == dstY) { // pruefe ob ziel, wenn Ziel:
-							if (p != Pieces.bKing) { // pruefe ob Gegnerischer Koenig, wenn nicht
-								return Status.HitPiece; // dann wird Figur geschlagen
-							} else {
-								return Status.EHitKingSchach; // ansonsten: unerlaubter Zug: Finger weg von Koenig
-							}
-						}
-						// break; // die weisse Figur sperrt
-						return Status.EOutOfFieldOrBlockedByPartnerPiece;
-					}
-					// break; // die schwarze Figur sperrt
-					return Status.EOutOfFieldOrBlockedByOwnPiece;
-				}
-			}
-		}
-		// Bishop features
-		if (srcX < dstX) { // E
-			if (srcY < dstY) { // N
-				while (++x < 8 && ++y < 8) { // gehe nach EN
-					p = game[x][y];
-					if (p == null) { // leeres Feld?
-						if (x == dstX && y == dstY) { // Ziel?
-							return Status.NormalMove;
-						} else {
-							continue; // naechstes Feld
-						}
-					}
-
-					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
-						if (x == dstX && y == dstY) { // Ziel?
-							if (p != Pieces.bKing) { // Koenig?
-								return Status.HitPiece;
-							} else {
-								return Status.EHitKingSchach; // NO DeathForKing == Schach
-							}
-						}
-						// break; // schwarze Figur sperrt
-						return Status.EOutOfFieldOrBlockedByPartnerPiece;
-					}
-					// break; //eigene Figur sperrt
-					return Status.EOutOfFieldOrBlockedByOwnPiece;
-				}
-			} else { // S
-				while (++x < 8 && --y >= 0) { // gehe nach ES
-					p = game[x][y];
-					if (p == null) { // leeres Feld?
-						if (x == dstX && y == dstY) { // Ziel?
-							return Status.NormalMove;
-						} else {
-							continue; // naechstes Feld
-						}
-					}
-
-					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
-						if (x == dstX && y == dstY) { // Ziel?
-							if (p != Pieces.bKing) { // Koenig?
-								return Status.HitPiece;
-							} else {
-								return Status.EHitKingSchach; // NO DeathForKing == Schach
-							}
-						}
-						// break; // schwarze Figur sperrt
-						return Status.EOutOfFieldOrBlockedByPartnerPiece;
-					}
-					// break; //eigene Figur sperrt
-					return Status.EOutOfFieldOrBlockedByOwnPiece;
-				}
-			}
-		}
-
-		else { // W
-			if (srcY < dstY) { // N
-				while (--x >= 0 && ++y < 8) { // gehe nach WN TODO: Fix var and comments
-					p = game[x][y];
-					if (p == null) { // leeres Feld?
-						if (x == dstX && y == dstY) { // Ziel?
-							return Status.NormalMove;
-						} else {
-							continue; // naechstes Feld
-						}
-					}
-					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
-						if (x == dstX && y == dstY) { // Ziel?
-							if (p != Pieces.bKing) { // Koenig?
-								return Status.HitPiece;
-							} else {
-								return Status.EHitKingSchach; // NO DeathForKing == Schach
-							}
-						}
-						// break; // schwarze Figur sperrt
-						return Status.EOutOfFieldOrBlockedByPartnerPiece;
-					}
-					// break; //eigene Figur sperrt
-					return Status.EOutOfFieldOrBlockedByOwnPiece;
-				}
-			} else { // S
-				while (--x >= 0 && --y >= 0) { // gehe nach WS
-					p = game[x][y];
-					if (p == null) { // leeres Feld?
-						if (x == dstX && y == dstY) { // Ziel?
-							return Status.NormalMove;
-						} else {
-							continue; // naechstes Feld
-						}
-					}
-					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
-						if (x == dstX && y == dstY) { // Ziel?
-							if (p != Pieces.bKing) { // Koenig?
-								return Status.HitPiece;
-							} else {
-								return Status.EHitKingSchach; // NO DeathForKing == Schach
-							}
-						}
-						// break; // schwarze Figur sperrt
 						return Status.EOutOfFieldOrBlockedByPartnerPiece;
 					}
 					// break; //eigene Figur sperrt
