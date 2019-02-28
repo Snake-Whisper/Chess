@@ -46,8 +46,8 @@ public class Chess {
 	private int[] bKingPos = new int[2];
 	boolean wKingNotTouched = true;
 	boolean bKingNotTouched = true;
-	private boolean[] wRookNotTouched = {true, true};
-	private boolean[] bRookNotTouched = {true, true};
+	private boolean[] wRookNotTouched = { true, true };
+	private boolean[] bRookNotTouched = { true, true };
 
 	public Chess(Pieces[][] game, boolean isWhite, int wTimeLeft, int bTimeLeft) {
 		game = this.game;
@@ -72,7 +72,7 @@ public class Chess {
 	}
 
 	public Status move(int srcX, int srcY, int dstX, int dstY) {
-		if (srcX<0 || srcX>7 || srcY<0 || srcY>7 || dstX<0 || dstX>7 || dstY<0 || dstY>7) {
+		if (srcX < 0 || srcX > 7 || srcY < 0 || srcY > 7 || dstX < 0 || dstX > 7 || dstY < 0 || dstY > 7) {
 			return Status.EOutOfFields;
 		}
 		if ((srcX == dstX && srcY == dstY) || game[srcX][srcY] == null) {
@@ -145,7 +145,7 @@ public class Chess {
 						mkMove(srcX, srcY, dstX, dstY);
 						isWhitePartner = !isWhitePartner; // TODO: Work Swap?
 						bTime.stop();
-						wTime.start();						
+						wTime.start();
 						return mv;
 					case KindfOfMagic:
 						mkMove(srcX, srcY, dstX, dstY);
@@ -289,68 +289,64 @@ public class Chess {
 		}
 
 	}
-	
+
 	private Status chkWKing(int srcX, int srcY, int dstX, int dstY) {
-		if (Math.abs(srcX - dstX) <= 1 && Math.abs(srcY - dstY) <= 1) { //Range safe
+		if (Math.abs(srcX - dstX) <= 1 && Math.abs(srcY - dstY) <= 1) { // Range safe
 			System.out.println("not implemented");
 		}
 		return Status.EUndefined;
 	}
-	
+
 	private Status chkWChess() {
 		return chkWChessAtField(wKingPos[0], wKingPos[1]);
 	}
-	
+
 	private Status chkBChess() {
 		return chkBChessAtField(bKingPos[0], bKingPos[1]);
 	}
-	
+
 	private Status chkWChessAtField(int dstX, int dstY) {
 		int x = dstX;
 		int y = dstY;
-	
+
 		Pieces figur = null; // necessary, otherwise error: var may not be initialized
-	
+
 		// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	
+
 		// x-dir
-	
+
 		while (++x < 8 && (figur = game[x][y]) == null)
 			continue;
-		if (figur == Pieces.bQueen || figur == Pieces.bRook
-				|| (figur == Pieces.bKing && Math.abs(x - dstX) == 1)) {
+		if (figur == Pieces.bQueen || figur == Pieces.bRook || (figur == Pieces.bKing && Math.abs(x - dstX) == 1)) {
 			return Status.EwChess;
 		}
-	
+
 		x = dstX;
 		while (--x >= 0 && (figur = game[x][y]) == null)
 			continue;
-		if (figur == Pieces.bQueen || figur == Pieces.bRook
-				|| (figur == Pieces.bKing && Math.abs(x - dstX) == 1)) {
+		if (figur == Pieces.bQueen || figur == Pieces.bRook || (figur == Pieces.bKing && Math.abs(x - dstX) == 1)) {
 			return Status.EwChess;
 		}
-	
+
 		// y-dir
-	
+
 		x = dstX;
-	
+
 		while (++y < 8 && (figur = game[x][y]) == null)
 			continue;
-		if (figur == Pieces.bQueen || figur == Pieces.bRook
-				|| (figur == Pieces.bKing && Math.abs(y - dstY) == 1)) {
+		if (figur == Pieces.bQueen || figur == Pieces.bRook || (figur == Pieces.bKing && Math.abs(y - dstY) == 1)) {
 			return Status.EwChess;
 		}
 		y = dstY;
 		while (--y >= 0 && (figur = game[x][y]) == null)
 			continue;
-		if (figur == Pieces.bQueen || figur == Pieces.bRook
-				|| (figur == Pieces.bKing && Math.abs(y - dstY) == 1)) {
+		if (figur == Pieces.bQueen || figur == Pieces.bRook || (figur == Pieces.bKing && Math.abs(y - dstY) == 1)) {
 			return Status.EwChess;
 		}
-	
+
 		y = dstY;
 		// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	
+
 		while (++y < 8 && ++x < 8 && (figur = game[x][y]) == null)
 			continue; // NE
 		if (figur == Pieces.bBishop || figur == Pieces.bQueen || ((figur == Pieces.bKing || figur == Pieces.bPawn)
@@ -359,7 +355,7 @@ public class Chess {
 		}
 		x = dstX;
 		y = dstY;
-	
+
 		while (++y < 8 && --x >= 0 && (figur = game[x][y]) == null)
 			continue; // NW
 		if (figur == Pieces.bBishop || figur == Pieces.bQueen || ((figur == Pieces.bKing || figur == Pieces.bPawn)
@@ -368,7 +364,7 @@ public class Chess {
 		}
 		x = dstX;
 		y = dstY;
-	
+
 		while (--y >= 0 && ++x < 8 && (figur = game[x][y]) == null)
 			continue; // SE
 		if (figur == Pieces.bBishop || figur == Pieces.bQueen
@@ -377,7 +373,7 @@ public class Chess {
 		}
 		x = dstX;
 		y = dstY;
-	
+
 		while (--y >= 0 && --x >= 0 && (figur = game[x][y]) == null)
 			continue; // SW
 		if (figur == Pieces.bBishop || figur == Pieces.bQueen
@@ -386,7 +382,7 @@ public class Chess {
 		}
 		x = dstX;
 		y = dstY;
-	
+
 		if (x + 2 < 8 && y + 1 < 8 && game[x + 2][y + 1] == Pieces.bKnight
 				|| x + 2 < 8 && y - 1 >= 0 && game[x + 2][y - 1] == Pieces.bKnight
 				|| x - 2 >= 0 && y + 1 < 8 && game[x - 2][y + 1] == Pieces.bKnight
@@ -396,7 +392,7 @@ public class Chess {
 				|| x - 1 >= 0 && y + 2 < 8 && game[x - 1][y + 2] == Pieces.bKnight
 				|| x - 1 >= 0 && y - 2 >= 0 && game[x - 1][y - 2] == Pieces.bKnight)
 			return Status.EwChess;
-	
+
 		return Status.NoChess;
 	}
 
@@ -412,16 +408,14 @@ public class Chess {
 
 		while (++x < 8 && (figur = game[x][y]) == null)
 			continue;
-		if (figur == Pieces.wQueen || figur == Pieces.wRook
-				|| (figur == Pieces.wKing && Math.abs(x - dstX) == 1)) {
+		if (figur == Pieces.wQueen || figur == Pieces.wRook || (figur == Pieces.wKing && Math.abs(x - dstX) == 1)) {
 			return Status.EbChess;
 		}
 
 		x = dstX;
 		while (--x >= 0 && (figur = game[x][y]) == null)
 			continue;
-		if (figur == Pieces.wQueen || figur == Pieces.wRook
-				|| (figur == Pieces.wKing && Math.abs(x - dstX) == 1)) {
+		if (figur == Pieces.wQueen || figur == Pieces.wRook || (figur == Pieces.wKing && Math.abs(x - dstX) == 1)) {
 			return Status.EbChess;
 		}
 
@@ -430,15 +424,13 @@ public class Chess {
 		x = dstY;
 		while (++y < 8 && (figur = game[x][y]) == null)
 			continue;
-		if (figur == Pieces.wQueen || figur == Pieces.wRook
-				|| (figur == Pieces.wKing && Math.abs(y - dstY) == 1)) {
+		if (figur == Pieces.wQueen || figur == Pieces.wRook || (figur == Pieces.wKing && Math.abs(y - dstY) == 1)) {
 			return Status.EbChess;
 		}
 		y = dstY;
 		while (--y >= 0 && (figur = game[x][y]) == null)
 			continue;
-		if (figur == Pieces.wQueen || figur == Pieces.wRook
-				|| (figur == Pieces.wKing && Math.abs(y - dstY) == 1)) {
+		if (figur == Pieces.wQueen || figur == Pieces.wRook || (figur == Pieces.wKing && Math.abs(y - dstY) == 1)) {
 			return Status.EbChess;
 		}
 
@@ -594,20 +586,42 @@ public class Chess {
 		return false;
 	}
 
+	private Status chkWRook(int srcX, int srcY, int dstX, int dstY) { //stecher
+		Status res = _chkWRook(srcX, srcY, dstX, dstY);
+		if (res.getValue() > 0) {
+			if (srcX == 0) {
+				wRookNotTouched[0] = false;
+			} else if (srcX == 7) {
+				wRookNotTouched[1] = false;
+			}
+		}
+		return res;	
+	}
 	
+	private Status chkBRook(int srcX, int srcY, int dstX, int dstY) { //stecher
+		Status res = _chkBRook(srcX, srcY, dstX, dstY);
+		if (res.getValue() > 0) {
+			if (srcX == 0) {
+				bRookNotTouched[0] = false;
+			} else if (srcX == 7) {
+				bRookNotTouched[1] = false;
+			}
+		}
+		return res;	
+	}
 
-	//TODO Implement Rochade
-	
-	private Status chkWRook(int srcX, int srcY, int dstX, int dstY) {
+	// TODO Implement Rochade
+
+	private Status _chkWRook(int srcX, int srcY, int dstX, int dstY) {
 		if (srcX != dstX && srcY != dstY) {
 			return Status.EOutOfFields;
 		}
-	
+
 		Pieces p;
-	
+
 		int x = srcX;
 		int y = srcY;
-	
+
 		if (srcY == dstY) { // zug nach rechts oder links
 			if (srcX < dstX) { // zug nach rechts
 				while (++x < 8) { // gehe nach rechts
@@ -634,9 +648,9 @@ public class Chess {
 					return Status.EOutOfFieldOrBlockedByOwnPiece;
 				}
 			} else { // zug nach links
-	
+
 				x = srcX;
-	
+
 				while (--x >= 0) { // gehe nach links
 					p = game[x][srcY];
 					if (p == null) { // wenn leeres Feld, dann
@@ -686,12 +700,12 @@ public class Chess {
 					// break; // die weise Figur sperrt
 					return Status.EOutOfFieldOrBlockedByOwnPiece;
 				}
-	
+
 			}
-	
+
 			// y = scrY;
 			else { // zug nach unten
-	
+
 				while (--y >= 0) { // gehe nach unten
 					p = game[srcX][y];
 					if (p == null) { // wenn leeres Feld, dann
@@ -716,14 +730,14 @@ public class Chess {
 					return Status.EOutOfFieldOrBlockedByOwnPiece;
 				}
 			}
-	
+
 		}
-	
+
 		return Status.EOutOfFieldsOrBlocked;
-	
+
 	}
 
-	private Status chkBRook(int srcX, int srcY, int dstX, int dstY) {
+	private Status _chkBRook(int srcX, int srcY, int dstX, int dstY) {
 		if (srcX != dstX && srcY != dstY) {
 			return Status.EOutOfFields;
 		}
@@ -844,17 +858,17 @@ public class Chess {
 
 	}
 
-	//TODO Implement Rochade
-	
+	// TODO Implement Rochade
+
 	private Status chkWBishop(int srcX, int srcY, int dstX, int dstY) {
 		if (srcX == dstX || srcY == dstY) { // Fuer die, welche gerne eine Frau haetten...
 			return Status.EOutOfFields;
 		}
-	
+
 		Pieces p;
 		int x = srcX;
 		int y = srcY;
-	
+
 		if (srcX < dstX) { // E
 			if (srcY < dstY) { // N
 				while (++x < 8 && ++y < 8) { // gehe nach EN
@@ -866,7 +880,7 @@ public class Chess {
 							continue; // naechstes Feld
 						}
 					}
-	
+
 					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
 						if (x == dstX && y == dstY) { // Ziel?
 							if (p != Pieces.bKing) { // Koenig?
@@ -891,7 +905,7 @@ public class Chess {
 							continue; // naechstes Feld
 						}
 					}
-	
+
 					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
 						if (x == dstX && y == dstY) { // Ziel?
 							if (p != Pieces.bKing) { // Koenig?
@@ -908,7 +922,7 @@ public class Chess {
 				}
 			}
 		}
-	
+
 		else { // W
 			if (srcY < dstY) { // N
 				while (--x >= 0 && ++y < 8) { // gehe nach WN
@@ -961,7 +975,7 @@ public class Chess {
 			}
 		}
 		return Status.EOutOfFieldsOrBlocked;
-	
+
 	}
 
 	private Status chkBBishop(int srcX, int srcY, int dstX, int dstY) {
@@ -1085,7 +1099,7 @@ public class Chess {
 	private Status chkWKnight(int srcX, int srcY, int dstX, int dstY) {
 		int x = Math.abs(srcX - dstX);
 		int y = Math.abs(srcY - dstY);
-	
+
 		if ((x == 2 && y == 1) || (x == 1 && y == 2)) {
 			Pieces p = game[dstX][dstY];
 			if (p == null) {
@@ -1098,12 +1112,12 @@ public class Chess {
 					return Status.EHitKingSchach;
 				}
 			}
-	
+
 			if (isWhite(p)) {
 				return Status.EOutOfFieldOrBlockedByOwnPiece;
 			}
 		}
-	
+
 		return Status.EOutOfFields;
 	}
 
@@ -1134,12 +1148,12 @@ public class Chess {
 
 	private Status chkWQueen(int srcX, int srcY, int dstX, int dstY) {
 		Pieces p;
-	
+
 		int x = srcX;
 		int y = srcY;
-	
+
 		// Rook features
-	
+
 		if (srcY == dstY) { // zug nach rechts oder links
 			if (srcX < dstX) { // zug nach rechts
 				while (++x < 8) { // gehe nach rechts
@@ -1168,7 +1182,7 @@ public class Chess {
 			}
 			// x = scrX;
 			else { // zug nach links
-	
+
 				while (--x >= 0) { // gehe nach links
 					p = game[x][srcY];
 					if (p == null) { // wenn leeres Feld, dann
@@ -1218,7 +1232,7 @@ public class Chess {
 					// break; // die schwarze Figur sperrt
 					return Status.EOutOfFieldOrBlockedByOwnPiece;
 				}
-	
+
 				// y = scrY;
 			} else { // zug nach unten
 				while (--y >= 0) { // gehe nach unten
@@ -1258,7 +1272,7 @@ public class Chess {
 							continue; // naechstes Feld
 						}
 					}
-	
+
 					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
 						if (x == dstX && y == dstY) { // Ziel?
 							if (p != Pieces.bKing) { // Koenig?
@@ -1283,7 +1297,7 @@ public class Chess {
 							continue; // naechstes Feld
 						}
 					}
-	
+
 					if (isBlack(p)) { // wenn schwarze Figur auf Feld, dann
 						if (x == dstX && y == dstY) { // Ziel?
 							if (p != Pieces.bKing) { // Koenig?
@@ -1300,7 +1314,7 @@ public class Chess {
 				}
 			}
 		}
-	
+
 		else { // W
 			if (srcY < dstY) { // N
 				while (--x >= 0 && ++y < 8) { // gehe nach WN TODO: Fix var and comments
