@@ -86,6 +86,8 @@ public class Chess {
 					case NormalMove:
 						mkMove(srcX, srcY, dstX, dstY);
 						isWhitePartner = !isWhitePartner; // TODO: Work Swap?
+						wTime.stop();
+						bTime.start();
 						return mv;
 					case KindfOfMagic:
 						mkMove(srcX, srcY, dstX, dstY);
@@ -94,11 +96,15 @@ public class Chess {
 						game[dstX][dstY] = null; // adios
 						mkMove(srcX, srcY, dstX, dstY);
 						isWhitePartner = !isWhitePartner;
+						wTime.stop();
+						bTime.start();
 						return mv;
 					case HitPieceEnPassant:
 						game[dstX][dstY - 1] = null; // en passant
 						mkMove(srcX, srcY, dstX, dstY);
 						isWhitePartner = !isWhitePartner;
+						wTime.stop();
+						bTime.start();
 						return mv;
 					case Rochade:
 						if (srcX < dstX) { // East
@@ -107,6 +113,8 @@ public class Chess {
 							System.out.println("do West Rochade");
 						}
 						isWhitePartner = !isWhitePartner;
+						wTime.stop();
+						bTime.start();
 						return mv;
 					default:
 						return Status.EUndefined;
@@ -129,6 +137,8 @@ public class Chess {
 					case NormalMove:
 						mkMove(srcX, srcY, dstX, dstY);
 						isWhitePartner = !isWhitePartner; // TODO: Work Swap?
+						bTime.stop();
+						wTime.start();						
 						return mv;
 					case KindfOfMagic:
 						mkMove(srcX, srcY, dstX, dstY);
@@ -137,11 +147,15 @@ public class Chess {
 						game[dstX][dstY] = null; // adios
 						mkMove(srcX, srcY, dstX, dstY);
 						isWhitePartner = !isWhitePartner;
+						bTime.stop();
+						wTime.start();
 						return mv;
 					case HitPieceEnPassant:
 						game[dstX][dstY + 1] = null; // en passant
 						mkMove(srcX, srcY, dstX, dstY);
 						isWhitePartner = !isWhitePartner;
+						bTime.stop();
+						wTime.start();
 						return mv;
 					case Rochade:
 						if (srcX < dstX) { // East
@@ -150,6 +164,8 @@ public class Chess {
 							System.out.println("do West Rochade");
 						}
 						isWhitePartner = !isWhitePartner;
+						bTime.stop();
+						wTime.start();
 						return mv;
 					default:
 						return Status.EUndefined;
