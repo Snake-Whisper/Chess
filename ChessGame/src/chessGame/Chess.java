@@ -46,6 +46,8 @@ public class Chess {
 	private int[] bKingPos = new int[2];
 	boolean wKingNotTouched = true;
 	boolean bKingNotTouched = true;
+	private boolean[] wRookNotTouched = new boolean[2];
+	private boolean[] bRookNotTouched = new boolean[2];
 
 	public Chess(Pieces[][] game, boolean isWhite, int wTimeLeft, int bTimeLeft) {
 		game = this.game;
@@ -70,6 +72,9 @@ public class Chess {
 	}
 
 	public Status move(int srcX, int srcY, int dstX, int dstY) {
+		if (srcX<0 || srcX>7 || srcY<0 || srcY>7 || dstX<0 || dstX>7 || dstY<0 || dstY>7) {
+			return Status.EOutOfFields;
+		}
 		if ((srcX == dstX && srcY == dstY) || game[srcX][srcY] == null) {
 			return Status.ENoPieceMoved;
 		}
@@ -284,6 +289,10 @@ public class Chess {
 		}
 
 	}
+	
+	/*private Status chkWKing(int srcX, int srcY, int dstX, int dstY) {
+		if ()
+	}*/
 	
 	private Status chkBChess() {
 		int x = bKingPos[0];
