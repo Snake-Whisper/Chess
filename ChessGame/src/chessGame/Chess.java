@@ -100,7 +100,7 @@ public class Chess {
 		wKingPos[0] = 4;
 		wKingPos[1] = 3;
 		game[4][3] = Pieces.wKing; // TODO Debeug
-		game[6][5] = Pieces.bQueen;
+		game[5][4] = Pieces.bPawn;
 		
 		System.out.println(chkWChess());
 		// game[4][4] = Pieces.wPawn; // TODO Debeug
@@ -113,7 +113,7 @@ public class Chess {
 		System.out.println(x);
 		System.out.println(y);
 		
-		Pieces figur = Pieces.wPawn; //necessary, otherwise error var may not be initialized
+		Pieces figur = null; //necessary, otherwise error var may not be initialized
 		
 		//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		
