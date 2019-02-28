@@ -2,7 +2,7 @@ package chessGame;
 
 public class Chess {
 
-	enum Pieces {
+	public enum Pieces {
 		wPawn(1), bPawn(-1), wKnight(2), bKnight(-2), wBishop(3), bBishop(-3), wRook(4), bRook(-4), wQueen(5),
 		bQueen(-5), wKing(6), bKing(-6);
 
@@ -17,7 +17,7 @@ public class Chess {
 		}
 	}
 
-	enum Status {
+	public enum Status {
 		EHitKingSchach(-1), EOutOfFields(-2), EUndefined(-3), ENoPieceMoved(-4), EOutOfFieldsOrBlocked(-5),
 		EOutOfFieldOrBlockedByOwnPiece(-6), EOutOfFieldOrBlockedByPartnerPiece(-7), EWrongPlayer(-8),
 		ESelectAMagicFigure(-9), EKindOfMagicRequired(-10), EKindOfMagicForbidden(-11), EbChess(-12), EwChess(-13),
@@ -45,19 +45,19 @@ public class Chess {
 	private int[] wKingPos = new int[2];
 	private int[] bKingPos = new int[2];
 
-	Chess(Pieces[][] game, boolean isWhite, int wTimeLeft, int bTimeLeft) {
+	public Chess(Pieces[][] game, boolean isWhite, int wTimeLeft, int bTimeLeft) {
 		game = this.game;
 		this.isWhitePartner = isWhite;
 		this.wTime = new Timer(wTimeLeft);
 		this.bTime = new Timer(bTimeLeft);
 	}
 
-	Chess(int wTimeLeft, int bTimeLeft) {
+	public Chess(int wTimeLeft, int bTimeLeft) {
 		this.wTime = new Timer(wTimeLeft);
 		this.bTime = new Timer(bTimeLeft);
 	}
 	
-	Chess() {
+	public Chess() {
 
 		this.wTime = new Timer();
 		this.bTime = new Timer();
@@ -67,47 +67,7 @@ public class Chess {
 
 	}
 
-	void groundStructure() {
-		for (int x = 0; x < 8; x++) { // Bauern
-			game[x][1] = Pieces.wPawn;
-			game[x][6] = Pieces.bPawn;
-		}
-
-		game[0][0] = Pieces.wRook;
-		game[7][0] = Pieces.wRook;
-		game[1][0] = Pieces.wKnight;
-		game[6][0] = Pieces.wKnight;
-		game[2][0] = Pieces.wBishop;
-		game[5][0] = Pieces.wBishop;
-		game[3][0] = Pieces.wQueen;
-		game[4][0] = Pieces.wKing;		
-		wKingPos[0] = 4;
-		wKingPos[1] = 0;
-
-		game[0][7] = Pieces.bRook;
-		game[7][7] = Pieces.bRook;
-		game[1][7] = Pieces.bKnight;
-		game[6][7] = Pieces.bKnight;
-		game[2][7] = Pieces.bBishop;
-		game[5][7] = Pieces.bBishop;
-		game[3][7] = Pieces.bQueen;
-		game[4][7] = Pieces.bKing;
-		bKingPos[0] = 4;
-		bKingPos[1] = 7;
-		
-		// TODO: DEBUG
-		System.out.println("DEBUG MODE!!!");
-		bKingPos[0] = 4;
-		bKingPos[1] = 3;
-		game[4][3] = Pieces.bKing; // TODO Debeug
-		game[3][4] = Pieces.wPawn;
-		
-		System.out.println(chkBChess());
-		// game[4][4] = Pieces.wPawn; // TODO Debeug
-	}
-
-
-	Status move(int srcX, int srcY, int dstX, int dstY) {
+	public Status move(int srcX, int srcY, int dstX, int dstY) {
 		if ((srcX == dstX && srcY == dstY) || game[srcX][srcY] == null) {
 			return Status.ENoPieceMoved;
 		}
@@ -194,7 +154,7 @@ public class Chess {
 		}
 	}
 
-	void printGame() {
+	public void printGame() {
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
 				System.out.print(game[x][y] + "|");
@@ -222,6 +182,45 @@ public class Chess {
 				return Status.EKindOfMagicForbidden;
 			}
 		}
+	}
+
+	private void groundStructure() {
+		for (int x = 0; x < 8; x++) { // Bauern
+			game[x][1] = Pieces.wPawn;
+			game[x][6] = Pieces.bPawn;
+		}
+	
+		game[0][0] = Pieces.wRook;
+		game[7][0] = Pieces.wRook;
+		game[1][0] = Pieces.wKnight;
+		game[6][0] = Pieces.wKnight;
+		game[2][0] = Pieces.wBishop;
+		game[5][0] = Pieces.wBishop;
+		game[3][0] = Pieces.wQueen;
+		game[4][0] = Pieces.wKing;		
+		wKingPos[0] = 4;
+		wKingPos[1] = 0;
+	
+		game[0][7] = Pieces.bRook;
+		game[7][7] = Pieces.bRook;
+		game[1][7] = Pieces.bKnight;
+		game[6][7] = Pieces.bKnight;
+		game[2][7] = Pieces.bBishop;
+		game[5][7] = Pieces.bBishop;
+		game[3][7] = Pieces.bQueen;
+		game[4][7] = Pieces.bKing;
+		bKingPos[0] = 4;
+		bKingPos[1] = 7;
+		
+		// TODO: DEBUG
+		System.out.println("DEBUG MODE!!!");
+		bKingPos[0] = 4;
+		bKingPos[1] = 3;
+		game[4][3] = Pieces.bKing; // TODO Debeug
+		game[3][4] = Pieces.wPawn;
+		
+		System.out.println(chkBChess());
+		// game[4][4] = Pieces.wPawn; // TODO Debeug
 	}
 
 	private void mkMove(int srcX, int srcY, int dstX, int dstY) {
@@ -259,7 +258,7 @@ public class Chess {
 
 	}
 
-	public Status chkBChess() {
+	private Status chkBChess() {
 		int x = bKingPos[0];
 		int y = bKingPos[1];
 		
@@ -348,7 +347,7 @@ public class Chess {
 		return Status.NoChess;
 	}
 
-	public Status chkWChess() {
+	private Status chkWChess() {
 		int x = wKingPos[0];
 		int y = wKingPos[1];
 		
@@ -437,7 +436,7 @@ public class Chess {
 		return Status.NoChess;
 	}
 
-	Status chkWPawn(int srcX, int srcY, int dstX, int dstY) {
+	private Status chkWPawn(int srcX, int srcY, int dstX, int dstY) {
 		Pieces p = game[dstX][dstY];
 		if (srcY + 1 == dstY) { // Ein Zug nach vorne
 			if (srcX == dstX) { // kein schlagen
@@ -480,7 +479,7 @@ public class Chess {
 		return Status.EOutOfFieldOrBlockedByOwnPiece;
 	}
 
-	Status chkBPawn(int srcX, int srcY, int dstX, int dstY) {
+	private Status chkBPawn(int srcX, int srcY, int dstX, int dstY) {
 		Pieces p = game[dstX][dstY];
 		if (srcY - 1 == dstY) { // Ein Zug nach vorne
 			if (srcX == dstX) { // kein schlagen
@@ -523,14 +522,14 @@ public class Chess {
 		return Status.EOutOfFieldOrBlockedByOwnPiece;
 	}
 
-	boolean isBlack(Pieces piece) {
+	private boolean isBlack(Pieces piece) {
 		if (piece.getValue() < 0) {
 			return true;
 		}
 		return false;
 	}
 
-	boolean isWhite(Pieces piece) {
+	private boolean isWhite(Pieces piece) {
 		if (piece.getValue() > 0) {
 			return true;
 		}
@@ -538,7 +537,7 @@ public class Chess {
 	}
 //TODO Implement Rochade
 
-	Status chkWRook(int srcX, int srcY, int dstX, int dstY) {
+	private Status chkWRook(int srcX, int srcY, int dstX, int dstY) {
 		if (srcX != dstX && srcY != dstY) {
 			return Status.EOutOfFields;
 		}
@@ -663,7 +662,7 @@ public class Chess {
 
 	}
 
-	Status chkBRook(int srcX, int srcY, int dstX, int dstY) {
+	private Status chkBRook(int srcX, int srcY, int dstX, int dstY) {
 		if (srcX != dstX && srcY != dstY) {
 			return Status.EOutOfFields;
 		}
@@ -784,7 +783,7 @@ public class Chess {
 
 	}
 
-	Status chkBBishop(int srcX, int srcY, int dstX, int dstY) {
+	private Status chkBBishop(int srcX, int srcY, int dstX, int dstY) {
 		if (srcX == dstX || srcY == dstY) { // Fuer die, welche gerne eine Frau haetten...
 			return Status.EOutOfFields;
 		}
@@ -902,7 +901,7 @@ public class Chess {
 
 	}
 
-	Status chkWBishop(int srcX, int srcY, int dstX, int dstY) {
+	private Status chkWBishop(int srcX, int srcY, int dstX, int dstY) {
 		if (srcX == dstX || srcY == dstY) { // Fuer die, welche gerne eine Frau haetten...
 			return Status.EOutOfFields;
 		}
@@ -1020,7 +1019,7 @@ public class Chess {
 
 	}
 
-	Status chkBKnight(int srcX, int srcY, int dstX, int dstY) {
+	private Status chkBKnight(int srcX, int srcY, int dstX, int dstY) {
 		int x = Math.abs(srcX - dstX);
 		int y = Math.abs(srcY - dstY);
 
@@ -1045,7 +1044,7 @@ public class Chess {
 		return Status.EOutOfFields;
 	}
 
-	Status chkWKnight(int srcX, int srcY, int dstX, int dstY) {
+	private Status chkWKnight(int srcX, int srcY, int dstX, int dstY) {
 		int x = Math.abs(srcX - dstX);
 		int y = Math.abs(srcY - dstY);
 
@@ -1070,7 +1069,7 @@ public class Chess {
 		return Status.EOutOfFields;
 	}
 
-	Status chkBQueen(int srcX, int srcY, int dstX, int dstY) {
+	private Status chkBQueen(int srcX, int srcY, int dstX, int dstY) {
 		Pieces p;
 
 		int x = srcX;
@@ -1293,7 +1292,7 @@ public class Chess {
 		return Status.EOutOfFieldsOrBlocked;
 	}
 
-	Status chkWQueen(int srcX, int srcY, int dstX, int dstY) {
+	private Status chkWQueen(int srcX, int srcY, int dstX, int dstY) {
 		Pieces p;
 
 		int x = srcX;
