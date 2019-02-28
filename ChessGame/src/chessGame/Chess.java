@@ -100,7 +100,7 @@ public class Chess {
 		wKingPos[0] = 4;
 		wKingPos[1] = 3;
 		game[4][3] = Pieces.wKing; // TODO Debeug
-		game[5][4] = Pieces.bPawn;
+		game[2][2] = Pieces.bKnight;
 		
 		System.out.println(chkWChess());
 		// game[4][4] = Pieces.wPawn; // TODO Debeug
@@ -152,7 +152,7 @@ public class Chess {
 		//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 		
 		while (++y < 8 && ++x < 8 && (figur = game[x][y]) == null) continue; //NE
-		if (figur == Pieces.bBishop || figur == Pieces.bQueen || //TODO: implement pawn check
+		if (figur == Pieces.bBishop || figur == Pieces.bQueen ||
 				((figur == Pieces.bKing || figur == Pieces.bPawn) && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)){
 			return Status.EwChess;
 		}
@@ -180,6 +180,21 @@ public class Chess {
 				(figur == Pieces.bKing && Math.abs(y-wKingPos[1]) == 1 && Math.abs(x-wKingPos[0]) == 1)) {
 			return Status.EwChess;
 		}
+		x = wKingPos[0];
+		y = wKingPos[1];
+		
+		if (x+2 < 8 && y+1 < 8 && game[x+2][y+1] == Pieces.bKnight ||
+			x+2 < 8 && y-1 >= 0 && game[x+2][y-1] == Pieces.bKnight ||
+			x-2 >= 0 && y+1 < 8 && game[x-2][y+1] == Pieces.bKnight ||
+			x-2 >= 0 && y-1 >= 0 && game[x-2][y-1] == Pieces.bKnight ||
+			x+1 < 8 && y+2 < 8 && game[x+1][y+2] == Pieces.bKnight ||
+			x+1 < 8 && y-2 >= 0 && game[x+1][y-2] == Pieces.bKnight ||
+			x-1 >= 0 && y+2 < 8 && game[x-1][y+2] == Pieces.bKnight ||
+			x-1 >= 0 && y-2 >= 0 && game[x-1][y-2] == Pieces.bKnight)
+			return Status.EwChess;
+						
+		
+		
 		return Status.NoChess;
 	}
 
