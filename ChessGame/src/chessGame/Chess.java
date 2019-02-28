@@ -84,9 +84,11 @@ public class Chess {
 					}
 					switch (mv) {
 					case NormalMove:
-					case KindfOfMagic:
 						mkMove(srcX, srcY, dstX, dstY);
 						isWhitePartner = !isWhitePartner; // TODO: Work Swap?
+						return mv;
+					case KindfOfMagic:
+						mkMove(srcX, srcY, dstX, dstY);
 						return mv;
 					case HitPiece:
 						game[dstX][dstY] = null; // adios
@@ -125,9 +127,11 @@ public class Chess {
 					}
 					switch (mv) {
 					case NormalMove:
-					case KindfOfMagic:
 						mkMove(srcX, srcY, dstX, dstY);
 						isWhitePartner = !isWhitePartner; // TODO: Work Swap?
+						return mv;
+					case KindfOfMagic:
+						mkMove(srcX, srcY, dstX, dstY);
 						return mv;
 					case HitPiece:
 						game[dstX][dstY] = null; // adios
@@ -262,7 +266,7 @@ public class Chess {
 		}
 
 	}
-
+	
 	private Status chkBChess() {
 		int x = bKingPos[0];
 		int y = bKingPos[1];
