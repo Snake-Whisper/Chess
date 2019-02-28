@@ -3,6 +3,7 @@ package ml.webUtils.chessClient;
 import java.awt.Color;
 import java.awt.GridLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -19,7 +20,9 @@ public class Squares extends JPanel{
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
 				squares[x][y] = new JLabel();
-
+				//test start
+				ImageIcon img = new ImageIcon(ml.webUtils.chessClient.class.getResource)
+				//test stop
 				if (black) {
 					squares[x][y].setBackground(Color.black);
 					black = false;
