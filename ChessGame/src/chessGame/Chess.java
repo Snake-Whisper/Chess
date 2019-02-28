@@ -44,8 +44,8 @@ public class Chess {
 	private boolean blocked = false;
 	private int[] wKingPos = new int[2];
 	private int[] bKingPos = new int[2];
-	boolean wKingNotTouched = true;
-	boolean bKingNotTouched = true;
+	private boolean wKingNotTouched = true;
+	private boolean bKingNotTouched = true;
 	private boolean[] wRookNotTouched = { true, true };
 	private boolean[] bRookNotTouched = { true, true };
 
@@ -289,10 +289,83 @@ public class Chess {
 		}
 
 	}
-
+	
 	private Status chkWKing(int srcX, int srcY, int dstX, int dstY) {
+		Status res = _chkWKing(srcX, srcY, dstX, dstY);
+		if (res.getValue() > 0) {
+			wKingNotTouched = false;
+		}
+		return res;
+	}
+
+	private Status _chkWKing(int srcX, int srcY, int dstX, int dstY) {
 		if (Math.abs(srcX - dstX) <= 1 && Math.abs(srcY - dstY) <= 1) { // Range safe
-			System.out.println("not implemented");
+			Pieces piece = game[dstX][dstY];
+			if (piece == null) { //normal move
+				return Status.NormalMove;
+			}
+			if (piece.getValue() > 0) {
+				return Status.EOutOfFieldOrBlockedByOwnPiece;
+			}
+			return piece == Pieces.bKing ? Status.EHitKingSchach : Status.HitPiece;
+		}
+		if (wKingNotTouched) {
+			if ((srcX == 4 && srcY == 0) && dstY == 0) { // Groundline 0
+				if (dstX == 0 && wRookNotTouched[0] &&
+						game[3][0] == null &&
+						game[2][0] == null &&
+						game[1][0] == null &&
+						chkWChessAtField(4, 0) == Status.NoChess && 
+						chkWChessAtField(3, 0) == Status.NoChess &&
+						chkWChessAtField(2, 0) == Status.NoChess) { // Rook left
+					wKingNotTouched = false;
+					mkMove(0, 0, 3, 0);
+					
+					return Status.Rochade;
+				} else if (dstX == 7 && wRookNotTouched[1] &&
+						game[5][0] == null &&
+						game[6][0] == null &&
+						chkWChessAtField(4, 0) == Status.NoChess && 
+						chkWChessAtField(5, 0) == Status.NoChess &&
+						chkWChessAtField(6, 0) == Status.NoChess) { // Rook right
+					wKingNotTouched = false;
+					mkMove(7, 0, 5, 0);
+					return Status.Rochade;
+				}
+			}
+		}
+		return Status.EUndefined;
+	}
+	
+	private Status chkBKing(int srcX, int srcY, int dstX, int dstY) {
+		Status res = _chkBKing(srcX, srcY, dstX, dstY);
+		if (res.getValue() > 0) {
+			bKingNotTouched = false;
+		}
+		return res;
+	}
+
+	private Status _chkBKing(int srcX, int srcY, int dstX, int dstY) {
+		if (Math.abs(srcX - dstX) <= 1 && Math.abs(srcY - dstY) <= 1) { // Range safe
+			Pieces piece = game[dstX][dstY];
+			if (piece == null) { //normal move
+				return Status.NormalMove;
+			}
+			if (piece.getValue() < 0) {
+				return Status.EOutOfFieldOrBlockedByOwnPiece;
+			}
+			return piece == Pieces.bKing ? Status.EHitKingSchach : Status.HitPiece;
+		}
+		if (bKingNotTouched) {
+			if ((srcX == 4 && srcY == 7) && dstY == 7) { // Groundline 7
+				if (dstX == 0 && bRookNotTouched[0]) { // Rook left
+					bKingNotTouched = false;
+					return Status.Rochade;
+				} else if (dstX == 7 && bRookNotTouched[1]) { // Rook right
+					bKingNotTouched = false;
+					return Status.Rochade;
+				}
+			}
 		}
 		return Status.EUndefined;
 	}
@@ -586,7 +659,7 @@ public class Chess {
 		return false;
 	}
 
-	private Status chkWRook(int srcX, int srcY, int dstX, int dstY) { //stecher
+	private Status chkWRook(int srcX, int srcY, int dstX, int dstY) { // stecher
 		Status res = _chkWRook(srcX, srcY, dstX, dstY);
 		if (res.getValue() > 0) {
 			if (srcX == 0) {
@@ -595,10 +668,10 @@ public class Chess {
 				wRookNotTouched[1] = false;
 			}
 		}
-		return res;	
+		return res;
 	}
-	
-	private Status chkBRook(int srcX, int srcY, int dstX, int dstY) { //stecher
+
+	private Status chkBRook(int srcX, int srcY, int dstX, int dstY) { // stecher
 		Status res = _chkBRook(srcX, srcY, dstX, dstY);
 		if (res.getValue() > 0) {
 			if (srcX == 0) {
@@ -607,7 +680,7 @@ public class Chess {
 				bRookNotTouched[1] = false;
 			}
 		}
-		return res;	
+		return res;
 	}
 
 	// TODO Implement Rochade
