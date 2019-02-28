@@ -44,6 +44,8 @@ public class Chess {
 	private boolean blocked = false;
 	private int[] wKingPos = new int[2];
 	private int[] bKingPos = new int[2];
+	boolean wKingNotTouched = true;
+	boolean bKingNotTouched = true;
 
 	public Chess(Pieces[][] game, boolean isWhite, int wTimeLeft, int bTimeLeft) {
 		game = this.game;
