@@ -49,6 +49,23 @@ public class Chess {
 	private boolean[] wRookNotTouched = { true, true };
 	private boolean[] bRookNotTouched = { true, true };
 
+	// bak Section
+	private int[] _bak_enWPassant = enWPassant;
+	private int[] _bak_enBPassant = enBPassant;
+	private int _bak_magic = magic; // x coor of magic pawn, just one requiered!!!
+	private boolean _bak_isWhitePartner = isWhitePartner; // nec?
+	private boolean _bak_blocked = blocked;
+	private int[] _bak_wKingPos = wKingPos;
+	private int[] _bak_bKingPos = bKingPos;
+	private boolean _bak_wKingNotTouched = wKingNotTouched;
+	private boolean _bak_bKingNotTouched = bKingNotTouched;
+	private boolean[] _bak_wRookNotTouched = wRookNotTouched;
+	private boolean[] _bak_bRookNotTouched = bRookNotTouched;
+	private int[] undoIndexSrc = new int[2];
+	private int[] undoIndexDst = new int[2];
+	private Pieces undoPiece = null;
+	// end bak
+
 	public Chess(Pieces[][] game, boolean isWhite, int wTimeLeft, int bTimeLeft) {
 		game = this.game;
 		this.isWhitePartner = isWhite;
@@ -67,7 +84,6 @@ public class Chess {
 		this.bTime = new Timer();
 
 		groundStructure();
-		// System.out.println(move(4, 4, 3, 5)); //TODO: DEBUG
 
 	}
 
@@ -79,6 +95,7 @@ public class Chess {
 			return Status.ENoPieceMoved;
 		}
 		if (!blocked) {
+			Status res;
 			if (isWhitePartner) {
 				if (isWhite(game[srcX][srcY])) {
 
@@ -91,38 +108,44 @@ public class Chess {
 					}
 					switch (mv) {
 					case NormalMove:
-						mkMove(srcX, srcY, dstX, dstY);
-						isWhitePartner = !isWhitePartner; // TODO: Work Swap?
-						wTime.stop();
-						bTime.start();
-						return mv;
-					case KindfOfMagic:
-						mkMove(srcX, srcY, dstX, dstY);
-						return mv;
-					case HitPiece:
-						game[dstX][dstY] = null; // adios
-						mkMove(srcX, srcY, dstX, dstY);
-						isWhitePartner = !isWhitePartner;
-						wTime.stop();
-						bTime.start();
-						return mv;
-					case HitPieceEnPassant:
-						game[dstX][dstY - 1] = null; // en passant
-						mkMove(srcX, srcY, dstX, dstY);
-						isWhitePartner = !isWhitePartner;
-						wTime.stop();
-						bTime.start();
-						return mv;
-					case Rochade:
-						if (srcX < dstX) { // East
-							System.out.println("do East Rochade"); // TODO implement rochade
-						} else {
-							System.out.println("do West Rochade");
+						if ((res = mkWMove(srcX, srcY, dstX, dstY)).getValue() > 0) {
+							wTime.stop();
+							bTime.start();
+							isWhitePartner = !isWhitePartner; // TODO: Work Swap?
+							return mv;
 						}
-						isWhitePartner = !isWhitePartner;
-						wTime.stop();
-						bTime.start();
-						return mv;
+						return res;
+					case KindfOfMagic:
+						if ((res = mkWMove(srcX, srcY, dstX, dstY)).getValue() > 0) {
+							return mv;
+						}
+						return res;
+					case HitPiece:
+						if ((res = mkWMove(srcX, srcY, dstX, dstY)).getValue() > 0) {
+							//game[dstX][dstY] = null; // adios
+							wTime.stop();
+							bTime.start();
+							isWhitePartner = !isWhitePartner;
+							return mv;
+						}
+						return res;
+					case HitPieceEnPassant:
+						if ((res = mkWMove(srcX, srcY, dstX, dstY)).getValue() > 0) {
+							game[dstX][dstY - 1] = null; // en passant
+							isWhitePartner = !isWhitePartner;
+							wTime.stop();
+							bTime.start();
+							return mv;
+						}
+						return res;
+					case Rochade: // equal to normal move, for log nec?
+						if ((res = mkWMove(srcX, srcY, dstX, dstY)).getValue() > 0) {
+							isWhitePartner = !isWhitePartner;
+							wTime.stop();
+							bTime.start();
+							return mv;
+						}
+						return res;
 					default:
 						return Status.EUndefined;
 					}
@@ -142,28 +165,36 @@ public class Chess {
 					}
 					switch (mv) {
 					case NormalMove:
-						mkMove(srcX, srcY, dstX, dstY);
-						isWhitePartner = !isWhitePartner; // TODO: Work Swap?
-						bTime.stop();
-						wTime.start();
-						return mv;
+						if ((res = mkBMove(srcX, srcY, dstX, dstY)).getValue() > 0) {
+							isWhitePartner = !isWhitePartner; // TODO: Work Swap?
+							bTime.stop();
+							wTime.start();
+							return mv;
+						}
+						return res;
 					case KindfOfMagic:
-						mkMove(srcX, srcY, dstX, dstY);
-						return mv;
+						if ((res = mkBMove(srcX, srcY, dstX, dstY)).getValue() > 0) {
+							return mv;
+						}
+						return res;
 					case HitPiece:
-						game[dstX][dstY] = null; // adios
-						mkMove(srcX, srcY, dstX, dstY);
-						isWhitePartner = !isWhitePartner;
-						bTime.stop();
-						wTime.start();
-						return mv;
+						if ((res = mkBMove(srcX, srcY, dstX, dstY)).getValue() > 0) {
+							//game[dstX][dstY] = null; // adios //TODO: implement to bak!!!
+							isWhitePartner = !isWhitePartner;
+							bTime.stop();
+							wTime.start();
+							return mv;
+						}
+						return res;
 					case HitPieceEnPassant:
-						game[dstX][dstY + 1] = null; // en passant
-						mkMove(srcX, srcY, dstX, dstY);
-						isWhitePartner = !isWhitePartner;
-						bTime.stop();
-						wTime.start();
-						return mv;
+						if ((res = mkBMove(srcX, srcY, dstX, dstY)).getValue() > 0) {
+							game[dstX][dstY + 1] = null; // en passant
+							isWhitePartner = !isWhitePartner;
+							bTime.stop();
+							wTime.start();
+							return mv;
+						}
+						return res;
 					case Rochade:
 						if (srcX < dstX) { // East
 							System.out.println("do East Rochade"); // TODO implement rochade
@@ -187,7 +218,7 @@ public class Chess {
 	}
 
 	public void printGame() {
-		for (int y = 0; y < 8; y++) {
+		for (int y = 7; y >= 0; y--) {
 			for (int x = 0; x < 8; x++) {
 				System.out.print(game[x][y] + "|");
 			}
@@ -214,6 +245,23 @@ public class Chess {
 				return Status.EKindOfMagicForbidden;
 			}
 		}
+	}
+
+	private void undo() {
+		enWPassant = _bak_enWPassant;
+		enBPassant = _bak_enBPassant;
+		magic = _bak_magic; // x coor of magic pawn, just one requiered!!!
+		isWhitePartner = _bak_isWhitePartner; // nec?
+		blocked = _bak_blocked;
+		wKingPos = _bak_wKingPos;
+		bKingPos = _bak_bKingPos;
+		wKingNotTouched = _bak_wKingNotTouched;
+		bKingNotTouched = _bak_bKingNotTouched;
+		wRookNotTouched = _bak_wRookNotTouched;
+		bRookNotTouched = _bak_bRookNotTouched;
+
+		game[undoIndexSrc[0]][undoIndexSrc[1]] = game[undoIndexDst[0]][undoIndexDst[1]];
+		game[undoIndexDst[0]][undoIndexDst[1]] = undoPiece;
 	}
 
 	private void groundStructure() {
@@ -245,20 +293,89 @@ public class Chess {
 		bKingPos[1] = 7;
 
 		// TODO: DEBUG
-		System.out.println("DEBUG MODE!!!");
-		bKingPos[0] = 4;
-		bKingPos[1] = 7;
-		game[4][7] = Pieces.bKing; // TODO Debeug
-		//game[4][0] = Pieces.wPawn;
-		System.out.println(chkBKing(4, 7, 5, 7));
-		// game[4][4] = Pieces.wPawn; // TODO Debeug
+		/*
+		 * System.out.println("DEBUG MODE!!!"); bKingPos[0] = 4; bKingPos[1] = 7;
+		 * game[4][7] = Pieces.bKing; // TODO Debeug System.out.println(chkBKing(4, 7,
+		 * 5, 7));
+		 */
+		test_schaefer_matt();
+		//printGame();
+		
+	}
+	
+	private void test_schaefer_matt() {
+		System.out.println(move(4, 1, 4, 3));
+		System.out.println(move(4, 6, 4, 4));
+		System.out.println(move(3, 0, 7, 4));
+		System.out.println(move(1, 7, 2, 5));
+		System.out.println(move(5, 0, 2, 3));
+		System.out.println(move(7, 6, 7, 5));
+		System.out.println(move(7, 4, 5, 6));
+		System.out.println(move(7, 7, 7, 6));
 	}
 
-	private void mkMove(int srcX, int srcY, int dstX, int dstY) {
+	private Status mkWMove(int srcX, int srcY, int dstX, int dstY) {
+		Status res;
+		_bak_enWPassant = enWPassant;
+		_bak_enBPassant = enBPassant;
+		_bak_magic = magic; // x coor of magic pawn, just one requiered!!!
+		_bak_isWhitePartner = isWhitePartner; // nec?
+		_bak_blocked = blocked;
+		_bak_wKingPos = wKingPos;
+		_bak_bKingPos = bKingPos;
+		_bak_wKingNotTouched = wKingNotTouched;
+		_bak_bKingNotTouched = bKingNotTouched;
+		_bak_wRookNotTouched = wRookNotTouched;
+		_bak_bRookNotTouched = bRookNotTouched;
+		undoIndexSrc[0] = srcX;
+		undoIndexSrc[1] = srcY;
+		undoIndexDst[0] = dstX;
+		undoIndexDst[1] = dstY;
+		undoPiece = game[dstX][dstY]; // Warnung rochade: 2 zuege! ABER: Rochade abort wenn schach
+
 		game[dstX][dstY] = game[srcX][srcY];
 		game[srcX][srcY] = null;
+
+		// critical operations TODO: Check!!!
+
+		if ((res = chkWChess()).getValue() < 0) {
+			System.out.println("undoW");
+			undo();
+		}
+		return res;
 	}
 
+	private Status mkBMove(int srcX, int srcY, int dstX, int dstY) {
+		Status res;
+		_bak_enWPassant = enWPassant;
+		_bak_enBPassant = enBPassant;
+		_bak_magic = magic; // x coor of magic pawn, just one requiered!!!
+		_bak_isWhitePartner = isWhitePartner; // nec?
+		_bak_blocked = blocked;
+		_bak_wKingPos = wKingPos;
+		_bak_bKingPos = bKingPos;
+		_bak_wKingNotTouched = wKingNotTouched;
+		_bak_bKingNotTouched = bKingNotTouched;
+		_bak_wRookNotTouched = wRookNotTouched;
+		_bak_bRookNotTouched = bRookNotTouched;
+		undoIndexSrc[0] = srcX;
+		undoIndexSrc[1] = srcY;
+		undoIndexDst[0] = dstX;
+		undoIndexDst[1] = dstY;
+		undoPiece = game[dstX][dstY]; // Warnung rochade: 2 zuege! ABER: Rochade abort wenn schach
+
+		game[dstX][dstY] = game[srcX][srcY];
+		game[srcX][srcY] = null;
+
+		// critical operations TODO: Check!!!
+		if ((res = chkBChess()).getValue() < 0) {
+			undo();
+			System.out.println("undoB");
+		}
+		return res;
+	}
+
+	
 	private Status chkMove(int srcX, int srcY, int dstX, int dstY) {
 
 		switch (game[srcX][srcY]) {
@@ -288,7 +405,7 @@ public class Chess {
 		}
 
 	}
-	
+
 	private Status chkWKing(int srcX, int srcY, int dstX, int dstY) {
 		Status res = _chkWKing(srcX, srcY, dstX, dstY);
 		if (res.getValue() > 0) {
@@ -308,7 +425,7 @@ public class Chess {
 	private Status _chkWKing(int srcX, int srcY, int dstX, int dstY) {
 		if (Math.abs(srcX - dstX) <= 1 && Math.abs(srcY - dstY) <= 1) { // Range safe
 			Pieces piece = game[dstX][dstY];
-			if (piece == null) { //normal move
+			if (piece == null) { // normal move
 				return Status.NormalMove;
 			}
 			if (piece.getValue() > 0) {
@@ -318,27 +435,18 @@ public class Chess {
 		}
 		if (wKingNotTouched) {
 			if ((srcX == 4 && srcY == 0) && dstY == 0) { // Groundline 0
-				if (dstX == 2 && wRookNotTouched[0] &&
-						game[3][0] == null &&
-						game[2][0] == null &&
-						game[1][0] == null &&
-						chkWChessAtField(4, 0) == Status.NoChess && 
-						chkWChessAtField(3, 0) == Status.NoChess &&
-						chkWChessAtField(2, 0) == Status.NoChess) { // Rook left
+				if (dstX == 2 && wRookNotTouched[0] && game[3][0] == null && game[2][0] == null && game[1][0] == null
+						&& chkWChessAtField(4, 0) == Status.NoChess && chkWChessAtField(3, 0) == Status.NoChess
+						&& chkWChessAtField(2, 0) == Status.NoChess) { // Rook left
 					wKingNotTouched = false;
-					mkMove(0, 0, 3, 0);
-					
+					mkWMove(0, 0, 3, 0);
+
 					return Status.Rochade;
-				} else if (dstX == 6 && wRookNotTouched[1] &&
-						game[5][0] == null &&
-						game[6][0] == null &&
-						chkWChessAtField(4, 0) == Status.NoChess &&
-						true &&
-						chkWChessAtField(5, 0) == Status.NoChess &&
-						true &&
-						chkWChessAtField(6, 0) == Status.NoChess) { // Rook right
+				} else if (dstX == 6 && wRookNotTouched[1] && game[5][0] == null && game[6][0] == null
+						&& chkWChessAtField(4, 0) == Status.NoChess && true && chkWChessAtField(5, 0) == Status.NoChess
+						&& true && chkWChessAtField(6, 0) == Status.NoChess) { // Rook right
 					wKingNotTouched = false;
-					mkMove(7, 0, 5, 0);
+					mkWMove(7, 0, 5, 0);
 					return Status.Rochade;
 				}
 			}
@@ -349,7 +457,7 @@ public class Chess {
 	private Status _chkBKing(int srcX, int srcY, int dstX, int dstY) {
 		if (Math.abs(srcX - dstX) <= 1 && Math.abs(srcY - dstY) <= 1) { // Range safe
 			Pieces piece = game[dstX][dstY];
-			if (piece == null) { //normal move
+			if (piece == null) { // normal move
 				return Status.NormalMove;
 			}
 			if (piece.getValue() < 0) {
@@ -359,32 +467,25 @@ public class Chess {
 		}
 		if (bKingNotTouched) {
 			if ((srcX == 4 && srcY == 7) && dstY == 7) { // Groundline 7
-				if (dstX == 2 && bRookNotTouched[0] &&
-						game[3][7] == null &&
-						game[2][7] == null &&
-						game[1][7] == null &&
-						chkBChessAtField(4, 7) == Status.NoChess && 
-						chkBChessAtField(3, 7) == Status.NoChess &&
-						chkBChessAtField(2, 7) == Status.NoChess) { // Rook left
+				if (dstX == 2 && bRookNotTouched[0] && game[3][7] == null && game[2][7] == null && game[1][7] == null
+						&& chkBChessAtField(4, 7) == Status.NoChess && chkBChessAtField(3, 7) == Status.NoChess
+						&& chkBChessAtField(2, 7) == Status.NoChess) { // Rook left
 					bKingNotTouched = false;
-					mkMove(0, 7, 3, 7);
-					
+					mkBMove(0, 7, 3, 7);
+
 					return Status.Rochade;
-				} else if (dstX == 6 && bRookNotTouched[1] &&
-						game[5][7] == null &&
-						game[6][7] == null &&
-						chkBChessAtField(4, 7) == Status.NoChess && 
-						chkBChessAtField(5, 7) == Status.NoChess &&
-						chkBChessAtField(6, 7) == Status.NoChess) { // Rook right
+				} else if (dstX == 6 && bRookNotTouched[1] && game[5][7] == null && game[6][7] == null
+						&& chkBChessAtField(4, 7) == Status.NoChess && chkBChessAtField(5, 7) == Status.NoChess
+						&& chkBChessAtField(6, 7) == Status.NoChess) { // Rook right
 					bKingNotTouched = false;
-					mkMove(7, 7, 5, 7);
+					mkBMove(7, 7, 5, 7);
 					return Status.Rochade;
 				}
 			}
 		}
 		return Status.EOutOfFields;
-	}	
-	
+	}
+
 	private Status chkWChess() {
 		return chkWChessAtField(wKingPos[0], wKingPos[1]);
 	}
@@ -698,8 +799,6 @@ public class Chess {
 		return res;
 	}
 
-	// TODO Implement Rochade
-
 	private Status _chkWRook(int srcX, int srcY, int dstX, int dstY) {
 		if (srcX != dstX && srcY != dstY) {
 			return Status.EOutOfFields;
@@ -945,8 +1044,6 @@ public class Chess {
 		return Status.EOutOfFieldsOrBlocked;
 
 	}
-
-	// TODO Implement Rochade
 
 	private Status chkWBishop(int srcX, int srcY, int dstX, int dstY) {
 		if (srcX == dstX || srcY == dstY) { // Fuer die, welche gerne eine Frau haetten...
