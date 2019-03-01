@@ -224,22 +224,22 @@ public class Chess {
 
 		game[0][0] = Pieces.wRook;
 		game[7][0] = Pieces.wRook;
-		game[1][0] = Pieces.wKnight;
+		/*game[1][0] = Pieces.wKnight;
 		game[6][0] = Pieces.wKnight;
 		game[2][0] = Pieces.wBishop;
 		game[5][0] = Pieces.wBishop;
-		game[3][0] = Pieces.wQueen;
+		game[3][0] = Pieces.wQueen;*/
 		game[4][0] = Pieces.wKing;
 		wKingPos[0] = 4;
 		wKingPos[1] = 0;
 
 		game[0][7] = Pieces.bRook;
 		game[7][7] = Pieces.bRook;
-		game[1][7] = Pieces.bKnight;
+		/*game[1][7] = Pieces.bKnight;
 		game[6][7] = Pieces.bKnight;
 		game[2][7] = Pieces.bBishop;
 		game[5][7] = Pieces.bBishop;
-		game[3][7] = Pieces.bQueen;
+		game[3][7] = Pieces.bQueen;*/
 		game[4][7] = Pieces.bKing;
 		bKingPos[0] = 4;
 		bKingPos[1] = 7;
@@ -247,11 +247,10 @@ public class Chess {
 		// TODO: DEBUG
 		System.out.println("DEBUG MODE!!!");
 		bKingPos[0] = 4;
-		bKingPos[1] = 3;
-		game[4][3] = Pieces.bKing; // TODO Debeug
-		game[3][2] = Pieces.wPawn;
-
-		System.out.println(chkBChess());
+		bKingPos[1] = 7;
+		game[4][7] = Pieces.bKing; // TODO Debeug
+		//game[4][0] = Pieces.wPawn;
+		System.out.println(chkBKing(4, 7, 5, 7));
 		// game[4][4] = Pieces.wPawn; // TODO Debeug
 	}
 
@@ -298,6 +297,14 @@ public class Chess {
 		return res;
 	}
 
+	private Status chkBKing(int srcX, int srcY, int dstX, int dstY) {
+		Status res = _chkBKing(srcX, srcY, dstX, dstY);
+		if (res.getValue() > 0) {
+			bKingNotTouched = false;
+		}
+		return res;
+	}
+
 	private Status _chkWKing(int srcX, int srcY, int dstX, int dstY) {
 		if (Math.abs(srcX - dstX) <= 1 && Math.abs(srcY - dstY) <= 1) { // Range safe
 			Pieces piece = game[dstX][dstY];
@@ -311,7 +318,7 @@ public class Chess {
 		}
 		if (wKingNotTouched) {
 			if ((srcX == 4 && srcY == 0) && dstY == 0) { // Groundline 0
-				if (dstX == 0 && wRookNotTouched[0] &&
+				if (dstX == 2 && wRookNotTouched[0] &&
 						game[3][0] == null &&
 						game[2][0] == null &&
 						game[1][0] == null &&
@@ -322,11 +329,13 @@ public class Chess {
 					mkMove(0, 0, 3, 0);
 					
 					return Status.Rochade;
-				} else if (dstX == 7 && wRookNotTouched[1] &&
+				} else if (dstX == 6 && wRookNotTouched[1] &&
 						game[5][0] == null &&
 						game[6][0] == null &&
-						chkWChessAtField(4, 0) == Status.NoChess && 
+						chkWChessAtField(4, 0) == Status.NoChess &&
+						true &&
 						chkWChessAtField(5, 0) == Status.NoChess &&
+						true &&
 						chkWChessAtField(6, 0) == Status.NoChess) { // Rook right
 					wKingNotTouched = false;
 					mkMove(7, 0, 5, 0);
@@ -334,15 +343,7 @@ public class Chess {
 				}
 			}
 		}
-		return Status.EUndefined;
-	}
-	
-	private Status chkBKing(int srcX, int srcY, int dstX, int dstY) {
-		Status res = _chkBKing(srcX, srcY, dstX, dstY);
-		if (res.getValue() > 0) {
-			bKingNotTouched = false;
-		}
-		return res;
+		return Status.EOutOfFields;
 	}
 
 	private Status _chkBKing(int srcX, int srcY, int dstX, int dstY) {
@@ -354,22 +355,36 @@ public class Chess {
 			if (piece.getValue() < 0) {
 				return Status.EOutOfFieldOrBlockedByOwnPiece;
 			}
-			return piece == Pieces.bKing ? Status.EHitKingSchach : Status.HitPiece;
+			return piece == Pieces.wKing ? Status.EHitKingSchach : Status.HitPiece;
 		}
 		if (bKingNotTouched) {
 			if ((srcX == 4 && srcY == 7) && dstY == 7) { // Groundline 7
-				if (dstX == 0 && bRookNotTouched[0]) { // Rook left
+				if (dstX == 2 && bRookNotTouched[0] &&
+						game[3][7] == null &&
+						game[2][7] == null &&
+						game[1][7] == null &&
+						chkBChessAtField(4, 7) == Status.NoChess && 
+						chkBChessAtField(3, 7) == Status.NoChess &&
+						chkBChessAtField(2, 7) == Status.NoChess) { // Rook left
 					bKingNotTouched = false;
+					mkMove(0, 7, 3, 7);
+					
 					return Status.Rochade;
-				} else if (dstX == 7 && bRookNotTouched[1]) { // Rook right
+				} else if (dstX == 6 && bRookNotTouched[1] &&
+						game[5][7] == null &&
+						game[6][7] == null &&
+						chkBChessAtField(4, 7) == Status.NoChess && 
+						chkBChessAtField(5, 7) == Status.NoChess &&
+						chkBChessAtField(6, 7) == Status.NoChess) { // Rook right
 					bKingNotTouched = false;
+					mkMove(7, 7, 5, 7);
 					return Status.Rochade;
 				}
 			}
 		}
-		return Status.EUndefined;
-	}
-
+		return Status.EOutOfFields;
+	}	
+	
 	private Status chkWChess() {
 		return chkWChessAtField(wKingPos[0], wKingPos[1]);
 	}
@@ -494,7 +509,7 @@ public class Chess {
 
 		// y-dir
 
-		x = dstY;
+		x = dstX;
 		while (++y < 8 && (figur = game[x][y]) == null)
 			continue;
 		if (figur == Pieces.wQueen || figur == Pieces.wRook || (figur == Pieces.wKing && Math.abs(y - dstY) == 1)) {
@@ -530,7 +545,7 @@ public class Chess {
 
 		while (--y >= 0 && ++x < 8 && (figur = game[x][y]) == null)
 			continue; // SE
-		if (figur == Pieces.wBishop || figur == Pieces.wQueen || ((figur == Pieces.wKing || figur == Pieces.bPawn)
+		if (figur == Pieces.wBishop || figur == Pieces.wQueen || ((figur == Pieces.wKing || figur == Pieces.wPawn)
 				&& Math.abs(y - dstY) == 1 && Math.abs(x - dstX) == 1)) {
 			return Status.EbChess;
 		}
