@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ChessFieldLabels extends JPanel{
+	Squares chess;
 	
 	Font ChessLabelFont = new Font("Serif", Font.BOLD, 24);
 	private GridBagConstraints CONSTRAINTS = new GridBagConstraints();
@@ -17,7 +18,7 @@ public class ChessFieldLabels extends JPanel{
 	public ChessFieldLabels() {
 		
 		setLayout(new GridBagLayout());
-		JPanel chess = new Squares();
+		chess = new Squares();
 		CONSTRAINTS.fill = GridBagConstraints.HORIZONTAL;
 		CONSTRAINTS.anchor = GridBagConstraints.FIRST_LINE_START;
 		CONSTRAINTS.weightx = 0.5;

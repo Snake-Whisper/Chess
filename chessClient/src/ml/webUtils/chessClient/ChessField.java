@@ -6,12 +6,12 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 
 public class ChessField extends JPanel{
-
+	ChessFieldLabels labledChess;
 	public ChessField() {
 		setLayout(new GridLayout());
 		this.setBackground(Color.RED); //TODO set Background
 		this.setOpaque(true);
-		JPanel labledChess = new ChessFieldLabels();
+		labledChess = new ChessFieldLabels();
 		add(labledChess);
 		
 	}

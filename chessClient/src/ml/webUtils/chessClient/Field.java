@@ -35,10 +35,15 @@ public class Field extends JFrame {
 		cp.setLayout(null);
 		// Clock2 cl = new Clock2(cp, 180);
 		//JPanel cl = new Clock2();
-		JPanel cl = new ChessField();
-		cl.setBounds(600, 100, 500, 500);
-		add(cl);
+		ChessField field = new ChessField();
+		field.setBounds(600, 100, 500, 500);
+		add(field);
 		setVisible(true);
+	}
+	
+	private void setPiece(int x, int y, java.net.URL uri ) {
+		//field.labledChess.chess.squares[x][y].setIcon(bRook);
+		
 	}
 
 }
