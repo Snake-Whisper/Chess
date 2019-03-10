@@ -12,6 +12,9 @@ import javax.swing.JPanel;
 public class Squares extends JPanel{
 	
 	static protected JLabel[][] squares = new JLabel[8][8]; //danger 2 use static, but u need to set icon
+	
+	
+	
 
 	public Squares() {
 		setLayout(new GridLayout(8, 8));
@@ -19,14 +22,12 @@ public class Squares extends JPanel{
 		this.addMouseListener(new MouseAdapter() {			
 			@Override
 			public void mousePressed(MouseEvent e) {
-				registerFeldClick(e.getPoint().x/(getSize().width/8), e.getPoint().y/(getSize().height/8));
+				Field.registerFeldClick(e.getPoint().x/(getSize().width/8), e.getPoint().y/(getSize().height/8));
 			}			
 		});
 	}
 	
-	private void registerFeldClick(int x, int y) {
-		System.out.println("Feld clicked: x="+x+", y="+y);
-	}
+	
 	
 	
 	
@@ -41,13 +42,14 @@ public class Squares extends JPanel{
 				//test stop
 				if (black) {
 					squares[x][y].setBackground(Color.darkGray);
-					//squares[x][y].setIcon(img);
+					squares[x][y].setIcon(new ImageIcon(""));
 					squares[x][y].setHorizontalAlignment(JLabel.CENTER);
 					squares[x][y].setVerticalAlignment(JLabel.CENTER);
 					black = false;
 				} else {
 					squares[x][y].setBackground(Color.white);
 					squares[x][y].setHorizontalAlignment(JLabel.CENTER);
+					squares[x][y].setIcon(new ImageIcon(""));
 					squares[x][y].setVerticalAlignment(JLabel.CENTER);
 					black = true;
 				}
