@@ -5,11 +5,6 @@ import java.awt.Toolkit;
 import javax.swing.*;
 
 public class Field extends JFrame {
-	/*static int SIZE = 80;
-	static int xChessBoarder = 50;
-	static int yChessBoarder = 50;
-	static int ChessLabelDeep = 25;
-	static int chessBkDeep = 35;*/
 	Container cp;
 	Font ChessLabelFont = new Font("Serif", Font.BOLD, 24);
 	Color bk = new Color(132, 24, 0);
