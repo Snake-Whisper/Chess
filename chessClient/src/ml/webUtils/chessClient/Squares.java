@@ -16,19 +16,7 @@ public class Squares extends JPanel{
 		makeSquares();		
 	}
 	
-	java.net.URL wRook   = ml.webUtils.chessClient.Squares.class.getResource("/images/Chess_rlt45.png");
-	java.net.URL wKnight = ml.webUtils.chessClient.Squares.class.getResource("/images/Chess_nlt45.png");
-	java.net.URL wBishop = ml.webUtils.chessClient.Squares.class.getResource("/images/Chess_blt45.png");
-	java.net.URL wQueen  = ml.webUtils.chessClient.Squares.class.getResource("/images/Chess_qlt45.png");
-	java.net.URL wKing   = ml.webUtils.chessClient.Squares.class.getResource("/images/Chess_klt45.png");
-	java.net.URL wPawn   = ml.webUtils.chessClient.Squares.class.getResource("/images/Chess_plt45.png");
 	
-	java.net.URL bRook   = ml.webUtils.chessClient.Squares.class.getResource("/images/Chess_rdt45.png");
-	java.net.URL bKnight = ml.webUtils.chessClient.Squares.class.getResource("/images/Chess_ndt45.png");
-	java.net.URL bBishop = ml.webUtils.chessClient.Squares.class.getResource("/images/Chess_bdt45.png");
-	java.net.URL bQueen  = ml.webUtils.chessClient.Squares.class.getResource("/images/Chess_qdt45.png");
-	java.net.URL bKing   = ml.webUtils.chessClient.Squares.class.getResource("/images/Chess_kdt45.png");
-	java.net.URL bPawn   = ml.webUtils.chessClient.Squares.class.getResource("/images/Chess_pdt45.png");
 	
 	private void makeSquares() {
 		
