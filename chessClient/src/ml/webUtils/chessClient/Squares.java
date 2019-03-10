@@ -21,7 +21,8 @@ public class Squares extends JPanel{
 			for (int y = 0; y < 8; y++) {
 				squares[x][y] = new JLabel();
 				//test start
-				ImageIcon img = new ImageIcon(ml.webUtils.chessClient.class.getResource)
+				//ImageIcon img = new ImageIcon(ml.webUtils.chessClient.class.getResource(""));
+				ImageIcon img = new ImageIcon(ml.webUtils.chessClient.Squares.class.getResource(""));
 				//test stop
 				if (black) {
 					squares[x][y].setBackground(Color.black);

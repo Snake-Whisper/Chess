@@ -69,8 +69,8 @@ public class ChessFieldLabels extends JPanel{
 			xLabels[i].setHorizontalAlignment(JLabel.CENTER);
 			xLabels[i].setVerticalAlignment(JLabel.BOTTOM);
 			xLabels[i].setFont(ChessLabelFont);
-			xLabels[i].setBackground(Color.red);
-			xLabels[i].setOpaque(true);
+			//xLabels[i].setBackground(Color.red);
+			//xLabels[i].setOpaque(true);
 			add(xLabels[i], CONSTRAINTS);
 
 			CONSTRAINTS.gridx = 0;
@@ -82,8 +82,8 @@ public class ChessFieldLabels extends JPanel{
 			yLabels[i].setHorizontalAlignment(JLabel.RIGHT);
 			yLabels[i].setVerticalAlignment(JLabel.CENTER);
 			yLabels[i].setFont(ChessLabelFont);
-			yLabels[i].setBackground(Color.red);
-			yLabels[i].setOpaque(true);
+			//yLabels[i].setBackground(Color.red);
+			//yLabels[i].setOpaque(true);
 			add(yLabels[i], CONSTRAINTS);
 
 		}
