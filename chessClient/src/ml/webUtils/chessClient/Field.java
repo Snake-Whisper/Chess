@@ -37,17 +37,17 @@ public class Field extends JFrame {
 		// Clock2 cl = new Clock2(cp, 180);
 		//JPanel cl = new Clock2();
 		ChessField field = new ChessField();
-		//setPiece(0, 0, wKing);
+		setPiece(0, 0, wKing);
 		field.setBounds(600, 100, 500, 500);
 		add(field);
 		setVisible(true);
 	}
 	
-	/*private void setPiece(int x, int y, ImageIcon img ) {
+	private void setPiece(int x, int y, ImageIcon img ) {
 		
 		//field.labledChess.chess.squares[x][y].setBackground(Color.RED);
 		ml.webUtils.chessClient.Squares.squares[x][y].setIcon(img);
 		
-	}*/
+	}
 
 }
