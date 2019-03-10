@@ -46,7 +46,7 @@ public class Field extends JFrame {
 	private void setPiece(int x, int y, ImageIcon img ) {
 		
 		//field.labledChess.chess.squares[x][y].setBackground(Color.RED);
-		ml.webUtils.chessClient.Squares.squares[x][y].setIcon(img);
+		ml.webUtils.chessClient.Squares.squares[x][y].setIcon(img); //price for "higher" programming language!
 		
 	}
 
