@@ -2,6 +2,8 @@ package ml.webUtils.chessClient;
 
 import java.awt.*;
 import java.awt.Toolkit;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.*;
 
 public class Field extends JFrame {
@@ -24,6 +26,8 @@ public class Field extends JFrame {
 	ImageIcon bQueen  = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_qdt45.png"));
 	ImageIcon bKing   = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_kdt45.png"));
 	ImageIcon bPawn   = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_pdt45.png"));
+	
+	ImageIcon noPiece = new ImageIcon("");
 
 	public Field() {
 		super("chess");
@@ -37,10 +41,10 @@ public class Field extends JFrame {
 		// Clock2 cl = new Clock2(cp, 180);
 		//JPanel cl = new Clock2();
 		ChessField field = new ChessField();
-		setPiece(0, 0, wKing);
 		field.setBounds(600, 100, 500, 500);
 		add(field);
 		setVisible(true);
+		
 	}
 	
 	private void setPiece(int x, int y, ImageIcon img ) {
@@ -48,6 +52,10 @@ public class Field extends JFrame {
 		//field.labledChess.chess.squares[x][y].setBackground(Color.RED);
 		ml.webUtils.chessClient.Squares.squares[x][y].setIcon(img); //price for "higher" programming language!
 		
+	}
+	
+	private void delPiece(int x, int y) {
+		ml.webUtils.chessClient.Squares.squares[x][y].setIcon(noPiece);
 	}
 
 }

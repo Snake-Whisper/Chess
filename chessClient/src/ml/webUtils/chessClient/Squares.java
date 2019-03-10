@@ -35,6 +35,8 @@ public class Squares extends JPanel{
 					black = false;
 				} else {
 					squares[x][y].setBackground(Color.white);
+					squares[x][y].setHorizontalAlignment(JLabel.CENTER);
+					squares[x][y].setVerticalAlignment(JLabel.CENTER);
 					black = true;
 				}
 
