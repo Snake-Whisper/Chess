@@ -21,8 +21,8 @@ public class Squares extends JPanel{
 	private void makeSquares() {
 		
 		boolean black = true;
-		for (int x = 0; x < 8; x++) {
-			for (int y = 0; y < 8; y++) {
+		for (int y = 0; y < 8; y++) {
+			for (int x = 0; x < 8; x++) {
 				squares[x][y] = new JLabel();
 				//test start
 				//ImageIcon img = new ImageIcon(wQueen);
