@@ -22,10 +22,11 @@ public class Squares extends JPanel{
 				squares[x][y] = new JLabel();
 				//test start
 				//ImageIcon img = new ImageIcon(ml.webUtils.chessClient.class.getResource(""));
-				ImageIcon img = new ImageIcon(ml.webUtils.chessClient.Squares.class.getResource(""));
+				ImageIcon img = new ImageIcon(ml.webUtils.chessClient.Squares.class.getResource("/images/Chess_blt45.png"));
 				//test stop
 				if (black) {
 					squares[x][y].setBackground(Color.black);
+					squares[x][y].setIcon(img);
 					black = false;
 				} else {
 					squares[x][y].setBackground(Color.white);
