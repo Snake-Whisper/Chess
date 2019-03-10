@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Squares extends JPanel{
+	
+	protected JLabel[][] squares = new JLabel[8][8];
 
 	public Squares() {
 		setLayout(new GridLayout(8, 8));
@@ -27,18 +29,19 @@ public class Squares extends JPanel{
 	java.net.URL bQueen  = ml.webUtils.chessClient.Squares.class.getResource("/images/Chess_qdt45.png");
 	java.net.URL bKing   = ml.webUtils.chessClient.Squares.class.getResource("/images/Chess_kdt45.png");
 	java.net.URL bPawn   = ml.webUtils.chessClient.Squares.class.getResource("/images/Chess_pdt45.png");
+	
 	private void makeSquares() {
-		JLabel[][] squares = new JLabel[8][8];
+		
 		boolean black = true;
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
 				squares[x][y] = new JLabel();
 				//test start
-				ImageIcon img = new ImageIcon(wQueen);
+				//ImageIcon img = new ImageIcon(wQueen);
 				//test stop
 				if (black) {
 					squares[x][y].setBackground(Color.darkGray);
-					squares[x][y].setIcon(img);
+					//squares[x][y].setIcon(img);
 					squares[x][y].setAlignmentX(JLabel.CENTER);
 					squares[x][y].setAlignmentY(JLabel.CENTER);
 					black = false;
