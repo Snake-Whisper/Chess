@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 public class Squares extends JPanel{
 	
-	protected JLabel[][] squares = new JLabel[8][8];
+	static protected JLabel[][] squares = new JLabel[8][8]; //danger 2 use static, but u need to set icon
 
 	public Squares() {
 		setLayout(new GridLayout(8, 8));
