@@ -2,6 +2,8 @@ package ml.webUtils.chessClient;
 
 import java.awt.*;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
@@ -56,7 +58,12 @@ public class Field extends JFrame {
 	
 	private void setPiece(int x, int y, ImageIcon img ) {		
 		ml.webUtils.chessClient.Squares.squares[x][y].setIcon(img); //price for "higher" programming language!
-		
+		/*ml.webUtils.chessClient.Squares.squares[x][y].addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				System.out.println("Registered Mouse Click at"+e.getPoint());
+			}
+		});*/
 	}
 	
 	private void delPiece(int x, int y) {

@@ -2,6 +2,8 @@ package ml.webUtils.chessClient;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -13,7 +15,17 @@ public class Squares extends JPanel{
 
 	public Squares() {
 		setLayout(new GridLayout(8, 8));
-		makeSquares();		
+		makeSquares();
+		this.addMouseListener(new MouseAdapter() {			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				registerFeldClick(e.getPoint().x/(getSize().width/8), e.getPoint().y/(getSize().height/8));
+			}			
+		});
+	}
+	
+	private void registerFeldClick(int x, int y) {
+		System.out.println("Feld clicked: x="+x+", y="+y);
 	}
 	
 	
