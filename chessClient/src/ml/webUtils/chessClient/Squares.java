@@ -30,8 +30,8 @@ public class Squares extends JPanel{
 				if (black) {
 					squares[x][y].setBackground(Color.darkGray);
 					//squares[x][y].setIcon(img);
-					squares[x][y].setAlignmentX(JLabel.CENTER);
-					squares[x][y].setAlignmentY(JLabel.CENTER);
+					squares[x][y].setHorizontalAlignment(JLabel.CENTER);
+					squares[x][y].setVerticalAlignment(JLabel.CENTER);
 					black = false;
 				} else {
 					squares[x][y].setBackground(Color.white);
