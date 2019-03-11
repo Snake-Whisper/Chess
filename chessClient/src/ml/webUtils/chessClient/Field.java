@@ -112,7 +112,7 @@ public class Field extends JFrame {
 			toSend[1][0] = x;
 			toSend[1][1] = y;
 			waitForDestination = false;
-			System.out.println("Sending...");
+			ml.webUtils.chessClient.Client.sendMove(toSend);
 		} else if (!waitForDestination && game[x][y]) {
 			System.out.println("Source Feld clicked: x="+x+", y="+y);
 			toSend[0][0] = x;
@@ -120,5 +120,7 @@ public class Field extends JFrame {
 			waitForDestination = true;
 		}
 	}
+	
+	
 
 }
