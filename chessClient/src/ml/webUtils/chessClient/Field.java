@@ -20,19 +20,19 @@ public class Field extends JFrame {
 	static private boolean[][] game = new boolean[8][8];
 	// Color bk = new Color(84, 26, 0);
 	
-	ImageIcon wRook   = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_rlt45.png"));
-	ImageIcon wKnight = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_nlt45.png"));
-	ImageIcon wBishop = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_blt45.png"));
-	ImageIcon wQueen  = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_qlt45.png"));
-	ImageIcon wKing   = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_klt45.png"));
-	ImageIcon wPawn   = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_plt45.png"));
-
-	ImageIcon bRook   = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_rdt45.png"));
-	ImageIcon bKnight = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_ndt45.png"));
-	ImageIcon bBishop = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_bdt45.png"));
-	ImageIcon bQueen  = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_qdt45.png"));
-	ImageIcon bKing   = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_kdt45.png"));
-	ImageIcon bPawn   = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_pdt45.png"));
+	static public ImageIcon wRook   = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_rlt45.png"));
+	static public ImageIcon wKnight = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_nlt45.png"));
+	static public ImageIcon wBishop = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_blt45.png"));
+	static public ImageIcon wQueen  = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_qlt45.png"));
+	static public ImageIcon wKing   = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_klt45.png"));
+	static public ImageIcon wPawn   = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_plt45.png"));
+ 
+	static public ImageIcon bRook   = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_rdt45.png"));
+	static public ImageIcon bKnight = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_ndt45.png"));
+	static public ImageIcon bBishop = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_bdt45.png"));
+	static public ImageIcon bQueen  = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_qdt45.png"));
+	static public ImageIcon bKing   = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_kdt45.png"));
+	static public ImageIcon bPawn   = new ImageIcon(ml.webUtils.chessClient.Field.class.getResource("/images/Chess_pdt45.png"));
 	
 	//ImageIcon noPiece = new ImageIcon("");
 
@@ -112,6 +112,8 @@ public class Field extends JFrame {
 			toSend[1][0] = x;
 			toSend[1][1] = y;
 			waitForDestination = false;
+			wMagicSelector p = new wMagicSelector();
+			p.setVisible(true);
 			ml.webUtils.chessClient.Client.sendMove(toSend);
 		} else if (!waitForDestination && game[x][y]) {
 			System.out.println("Source Feld clicked: x="+x+", y="+y);

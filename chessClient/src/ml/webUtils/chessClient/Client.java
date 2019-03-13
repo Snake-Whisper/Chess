@@ -1,10 +1,14 @@
 package ml.webUtils.chessClient;
 
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+
 class Client {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Field field = new Field();
+		
 	}
 	
 	static public void sendMove(int [][] coors) {
