@@ -3,37 +3,55 @@ package ml.webUtils.chessClient;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+
 import javax.swing.Icon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
+import javax.swing.JLabel;import javax.swing.JOptionPane;
+
 
 public class wMagicSelector extends JDialog{
-
+	private int selected = 0;
 	public wMagicSelector() {
 		setTitle("Please select a piece");
-		setResizable(true);
-		//setLayout(new BorderLayout());
+		setResizable(false);
+		setLayout(null);
+		this.setSize(380, 150);
 		JLabel[] pieces = new JLabel[4];
 		pieces[0] = new JLabel(ml.webUtils.chessClient.Field.wBishop);
-		pieces[0].setPreferredSize(new Dimension(20, 10));
-		add(pieces[0]);
+		
 		pieces[1] = new JLabel(ml.webUtils.chessClient.Field.wKnight);
-		pieces[1].setPreferredSize(new Dimension(20, 10));
-		add(pieces[1]);
+		
 		pieces[2] = new JLabel(ml.webUtils.chessClient.Field.wQueen);
-		pieces[2].setBounds(x, y, width, height);(new Dimension(20, 10));
-		add(pieces[2]);
+		
 		pieces[3] = new JLabel(ml.webUtils.chessClient.Field.wRook);
-		pieces[3].setPreferredSize(new Dimension(20, 10));
-		add(pieces[3]);
+		
+		for (int i=0; i<pieces.length; i++) {
+			pieces[i].setBounds(100*i,10,50,50);
+			this.add(pieces[i]);
+		}
+		JButton ok = new JButton("ok");
+		ok.setBounds((this.getWidth() - 50) /2, this.getHeight() - 60 , 50, 20);// (framesize - buttonsize) / 2
+		ok.addActionListener(e -> {
+			if (selected > 0 && selected < 5) {
+				sendMagic(selected); //use enum pieces!!!
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Pleasde select a piece", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		});
+		this.add(ok);
+		
 	
 	/*for (int i = 0; i<pieces.length; i++) {
 		add(pieces[i]);
 	}*/
 		
-		pack();
 		
-		
+	}
+	
+	public void sendMagic(int piece) { //override
+		System.out.println("Send Magic" + piece);
 	}
 
 }
