@@ -112,7 +112,7 @@ public class Field extends JFrame {
 			toSend[1][0] = x;
 			toSend[1][1] = y;
 			waitForDestination = false;
-			wMagicSelector p = new wMagicSelector();
+			MagicSelector p = new MagicSelector(false);
 			p.setVisible(true);
 			ml.webUtils.chessClient.Client.sendMove(toSend);
 		} else if (!waitForDestination && game[x][y]) {
