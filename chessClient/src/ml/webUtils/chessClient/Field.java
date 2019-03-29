@@ -2,8 +2,6 @@ package ml.webUtils.chessClient;
 
 import java.awt.*;
 import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
