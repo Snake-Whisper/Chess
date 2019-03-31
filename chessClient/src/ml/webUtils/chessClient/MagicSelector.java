@@ -26,19 +26,13 @@ public class MagicSelector extends JDialog {
 		JLabel[] pieces = new JLabel[4];
 		if (white) {
 			pieces[0] = new JLabel(ml.webUtils.chessClient.Field.wBishop);
-
 			pieces[1] = new JLabel(ml.webUtils.chessClient.Field.wKnight);
-
 			pieces[2] = new JLabel(ml.webUtils.chessClient.Field.wQueen);
-
 			pieces[3] = new JLabel(ml.webUtils.chessClient.Field.wRook);
 		} else {
 			pieces[0] = new JLabel(ml.webUtils.chessClient.Field.bBishop);
-
 			pieces[1] = new JLabel(ml.webUtils.chessClient.Field.bKnight);
-
 			pieces[2] = new JLabel(ml.webUtils.chessClient.Field.bQueen);
-
 			pieces[3] = new JLabel(ml.webUtils.chessClient.Field.bRook);
 		}
 		Border border = BorderFactory.createLineBorder(Color.green, 5);
