@@ -84,6 +84,7 @@ public class Chess {
 		this.bTime = new Timer();
 
 		groundStructure();
+		test_schaefer_matt();
 
 	}
 
@@ -298,7 +299,7 @@ public class Chess {
 		 * game[4][7] = Pieces.bKing; // TODO Debeug System.out.println(chkBKing(4, 7,
 		 * 5, 7));
 		 */
-		test_schaefer_matt();
+		//test_schaefer_matt();
 		//printGame();
 		
 	}
